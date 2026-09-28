@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import fnmatch
 import hashlib
 import json
 import os
@@ -345,9 +346,18 @@ def canonical_row(raw_map, mapping, headers):
 
 
 def identify_sources(source_dir):
-    found, by_hash = [], {}
-    for p in sorted(Path(source_dir).iterdir(), key=lambda x: x.name.casefold()):
-        if p.suffix.lower() not in {".csv", ".xlsx"}:
+    """Inventory every file under the input folder: a file that is neither a readable source nor
+    ignored by an explicit config pattern stops the run instead of silently dropping data."""
+    source_dir = Path(source_dir)
+    patterns = CONFIG.get("ignored_input_files", [])
+    found, by_hash, ignored, unsupported = [], {}, [], []
+    for p in sorted((x for x in source_dir.rglob("*") if x.is_file()), key=lambda x: x.relative_to(source_dir).as_posix().casefold()):
+        relative = p.relative_to(source_dir).as_posix()
+        if any(fnmatch.fnmatch(relative, pattern) for pattern in patterns):
+            ignored.append(relative)
+            continue
+        if p.parent != source_dir or p.suffix.lower() not in {".csv", ".xlsx"}:
+            unsupported.append(relative)
             continue
         sha = digest(p)
         if sha in by_hash:
@@ -355,7 +365,10 @@ def identify_sources(source_dir):
             continue
         by_hash[sha] = [p.name]
         found.append((p, sha))
-    return found, by_hash
+    if unsupported:
+        raise ValueError("Arquivos de entrada não suportados (somente .csv/.xlsx na raiz da pasta; "
+                         f"para ignorar, declare em ignored_input_files no config): {unsupported}")
+    return found, by_hash, ignored
 
 
 def _aux_entity(headers):
@@ -397,7 +410,7 @@ def _aux_record(entity, headers, values):
 
 def _read_aux_candidates(source_dir):
     result = {entity: [] for entity in AUX_SPECS}
-    found, _ = identify_sources(source_dir)
+    found, _, _ = identify_sources(source_dir)
     by_sheet = set()
     for path, sha in found:
         if path.suffix.lower() == ".csv":
@@ -478,7 +491,7 @@ def _insert_auxiliary_data(source_dir, con, raw_files):
 
 
 def ingest(source_dir, con, outdir):
-    files, aliases = identify_sources(source_dir)
+    files, aliases, ignored_files = identify_sources(source_dir)
     _, auxiliary_sheets = _read_aux_candidates(source_dir)
     raw_files, occurrences, layout_rows, errors = [], [], [], []
     for path, sha in files:
@@ -542,7 +555,10 @@ def ingest(source_dir, con, outdir):
         sha, name, sheet, layout, row, lstart, lend, orig, canon, _ = o
         occid = f"{sha[:16]}:{sheet or ''}:{row}"
         con.execute("INSERT INTO raw_uber_occurrences VALUES (?, ?, ?, ?, ?, ?, ?, ?::JSON, ?::JSON, ?)", [sha, name, sheet, layout, row, lstart, lend, orig, canon, occid])
-    (outdir / "input_manifest.json").write_text(json.dumps({"unique_content": [{"file_sha256": h, "reference_file": p.name, "aliases": aliases[h]} for (p, h) in files]}, ensure_ascii=False, indent=2), encoding="utf-8", newline="\r\n")
+    manifest = {"unique_content": [{"file_sha256": h, "reference_file": p.name, "aliases": aliases[h]} for (p, h) in files]}
+    if ignored_files:
+        manifest["ignored_by_config"] = ignored_files
+    (outdir / "input_manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8", newline="\r\n")
 
 
 def _layout_id(headers):
@@ -652,11 +668,17 @@ def main():
                     help="Data de corte YYYY-MM-DD para bloquear títulos vencidos; informe explicitamente em reruns auditáveis")
     ap.add_argument("--first-competence", default=CONFIG.get("first_automated_competence"),
                     help="Primeira competência YYYY-MM permitida para automação")
+    ap.add_argument("--override-reason",
+                    help="Justificativa obrigatória para --first-competence anterior à configurada; fica registrada no run_summary.json")
     ap.add_argument("--keep-failed-build", action="store_true",
                     help="Preserva a pasta temporária de um build com falha, para diagnóstico")
     args = ap.parse_args()
     if not args.first_competence or not re.fullmatch(r"\d{4}-(0[1-9]|1[0-2])", args.first_competence):
         raise SystemExit("Primeira competência automatizada deve ser YYYY-MM válido.")
+    if args.first_competence < CONFIG["first_automated_competence"] and not (args.override_reason or "").strip():
+        raise SystemExit(f"--first-competence {args.first_competence} reabre competências anteriores ao corte configurado "
+                         f"({CONFIG['first_automated_competence']}) e pode duplicar títulos já lançados manualmente no ERP. "
+                         "Informe --override-reason com a justificativa.")
     if args.output.is_symlink():
         raise SystemExit("A saída não pode ser um link simbólico.")
     target_out = args.output.resolve()
@@ -709,7 +731,8 @@ def build_output(args, out):
     formats = sorted({fmt for c in configs for fmt in c.get("date_formats", {}).values()})
     dbt_vars = json.dumps({"date_formats": formats, "client_id": CONFIG["client_id"],
                            "corporate_card_routes": CONFIG.get("corporate_card_routes", {}),
-                           "classification_review_rules": CONFIG.get("classification_review_rules", []),
+                           "classification_pending_expense_codes": CONFIG.get("classification_pending_expense_codes", []),
+                           "cost_account_cost_centers": CONFIG.get("cost_account_cost_centers", []),
                            "reimbursement_issue_date_rule": CONFIG.get("reimbursement_issue_date_rule"),
                            "first_automated_competence": args.first_competence,
                            "as_of_date": args.as_of_date.isoformat()})
@@ -732,6 +755,7 @@ def build_output(args, out):
             "python_version": sys.version.split()[0],
             "as_of_date": args.as_of_date.isoformat(),
             "first_automated_competence": args.first_competence,
+            "first_competence_override_reason": args.override_reason if args.first_competence < CONFIG["first_automated_competence"] else None,
         }, indent=2), encoding="utf-8", newline="\r\n")
     finally:
         con.close()
@@ -790,7 +814,9 @@ def write_controller_summary(con, out, args):
     for typ, total, released in titles:
         lines.append(f"- {typ}: {total} candidatos, {released} liberados, {total-released} retidos.")
     lines.append(f"- Arquivos Alchemy: {con.execute('select count(*) from ap_titulos').fetchone()[0]} títulos e {con.execute('select count(*) from ap_rateios').fetchone()[0]} rateios liberados.")
-    lines.append(f"- Corte automatizado configurado: {args.first_competence}; data-base operacional: {args.as_of_date}. Títulos de competências anteriores, títulos já emitidos e vencimentos passados ficam retidos.")
+    lines.append(f"- Corte automatizado configurado: {args.first_competence}; data-base operacional: {args.as_of_date}. Títulos de competências anteriores ou ainda não encerradas, títulos já emitidos e vencimentos passados ficam retidos.")
+    if args.first_competence < CONFIG["first_automated_competence"]:
+        lines.append(f"- Corte antecipado em relação ao configurado ({CONFIG['first_automated_competence']}), com justificativa: {args.override_reason}. Conferir títulos já lançados manualmente no ERP antes de importar.")
     if con.execute("select count(*) from raw_issued_titles").fetchone()[0] == 0:
         lines.append("- Cadastro de títulos já emitidos vazio nesta execução. Confirmar o universo manual diretamente no ERP antes de qualquer importação futura.")
     lines.extend(["", "## Faturas por demonstrativo"])

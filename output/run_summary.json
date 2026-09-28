@@ -45,11 +45,12 @@
     "raw_ref_vendors": 43,
     "raw_ref_statements": 2
   },
-  "code_sha256": "953dc2da1c89362f43ccad11e7ece07b8f0178df438b5a8705da490851e8b4ed",
+  "code_sha256": "c658cbe0d98d16a04e1495a3397823bede3783e3dffd7a04d925c7c6d8f90b9f",
   "input_manifest_sha256": "fd97a15fa055e6b084f0ce454c6f848cc917023b607f83c3c350fa3a0609a448",
   "issued_ledger_sha256": "3e4e328bcb2721f1e88b26837f7ce14f1ccb84c630e539f80330ecd9fa097200",
   "resolutions_sha256": "c7b8a07e0c63d68d4e98b54d16ab2c65536c9e78938841ed451c7d1f5b391c43",
   "python_version": "3.14.6",
   "as_of_date": "2026-09-28",
-  "first_automated_competence": "2026-09"
+  "first_automated_competence": "2026-09",
+  "first_competence_override_reason": null
 }

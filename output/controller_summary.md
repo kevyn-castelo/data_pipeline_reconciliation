@@ -6,7 +6,7 @@ Os arquivos de importação incluem somente títulos aprovados pelo release gate
 - FATURA_FORNECEDOR: 2 candidatos, 0 liberados, 2 retidos.
 - REEMBOLSO_COLABORADOR: 18 candidatos, 0 liberados, 18 retidos.
 - Arquivos Alchemy: 0 títulos e 0 rateios liberados.
-- Corte automatizado configurado: 2026-09; data-base operacional: 2026-09-28. Títulos de competências anteriores, títulos já emitidos e vencimentos passados ficam retidos.
+- Corte automatizado configurado: 2026-09; data-base operacional: 2026-09-28. Títulos de competências anteriores ou ainda não encerradas, títulos já emitidos e vencimentos passados ficam retidos.
 - Cadastro de títulos já emitidos vazio nesta execução. Confirmar o universo manual diretamente no ERP antes de qualquer importação futura.
 
 ## Faturas por demonstrativo

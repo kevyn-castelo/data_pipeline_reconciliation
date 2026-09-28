@@ -24,6 +24,11 @@ with cards as (
   from {{ source('raw', 'raw_ref_accounting_accounts') }}
   where nullif(trim(account_code), '') is not null
   group by 1
+), accounting_parents as (
+  -- An account with sub-accounts is synthetic even if the chart flags it as postable.
+  select distinct trim(p.account_code) as account_code
+  from {{ source('raw', 'raw_ref_accounting_accounts') }} p
+  join {{ source('raw', 'raw_ref_accounting_accounts') }} c on starts_with(trim(c.account_code), trim(p.account_code) || '.')
 ), crosswalk as (
   select trim(accounting_account) as accounting_account, count(*) as crosswalk_row_count,
          count(distinct coalesce(managerial_account, '<NULL>')) as managerial_target_count,
@@ -38,6 +43,10 @@ with cards as (
   from {{ source('raw', 'raw_ref_managerial_accounts') }}
   where nullif(trim(managerial_account), '') is not null
   group by 1
+), managerial_parents as (
+  select distinct trim(p.managerial_account) as managerial_account
+  from {{ source('raw', 'raw_ref_managerial_accounts') }} p
+  join {{ source('raw', 'raw_ref_managerial_accounts') }} c on starts_with(trim(c.managerial_account), trim(p.managerial_account) || '.')
 ), classified as (
   select t.*,
          case when lower(coalesce(t.program,'')) like '%uber central%' then t.requester_email else t.email end as responsibility_email,
@@ -82,6 +91,7 @@ with cards as (
               when a.account_code is null then 'accounting_account_not_found'
               when a.account_row_count > 1 or a.posting_flag_count > 1 then 'ambiguous_accounting_account'
               when upper(trim(a.accepts_posting)) not in ('S','SIM','TRUE','1') then 'account_not_postable'
+              when ap.account_code is not null then 'account_synthetic'
               else 'postable' end as accounting_account_validation_status,
          case when m.expense_code is null or m.account_target_count <> 1 or m.accounting_target_account is null then 'not_checked'
               when x.accounting_account is null or x.managerial_target_count=0 then 'official_crosswalk_missing'
@@ -91,6 +101,7 @@ with cards as (
               when g.managerial_account is null then 'managerial_account_not_found'
               when g.managerial_row_count > 1 or g.posting_flag_count > 1 then 'ambiguous_managerial_account'
               when upper(trim(g.accepts_posting)) not in ('S','SIM','TRUE','1') then 'managerial_account_not_postable'
+              when gp.managerial_account is not null then 'managerial_account_synthetic'
               else 'postable' end as managerial_account_validation_status,
          case when m.managerial_suggested_account is null then 'not_provided'
               when x.managerial_target_count <> 1 or x.managerial_account is null then 'not_comparable'
@@ -105,17 +116,19 @@ with cards as (
   left join cards c on c.card_brand_norm = {{ norm_card_brand('t.card_brand') }} and c.card_last4=t.card_last4
   left join expense_map m on m.expense_code=t.expense_code
   left join accounting a on a.account_code=m.accounting_target_account
+  left join accounting_parents ap on ap.account_code=m.accounting_target_account
   left join crosswalk x on x.accounting_account=m.accounting_target_account
   left join managerial g on g.managerial_account=x.managerial_account
+  left join managerial_parents gp on gp.managerial_account=x.managerial_account
 ), final_classification as (
   select classified.*,
-         case
-              {% for rule in var('classification_review_rules', []) %}
-              when expense_code='{{ rule.expense_code }}'
-              {% if rule.cost_centers %}and official_cost_center in ('{{ rule.cost_centers | join("','") }}'){% endif %}
-              then true
-              {% endfor %}
-              else false end as cost_expense_review_required,
+         -- Custo × Despesa moves CMV and gross profit: codes awaiting a controller decision are always held,
+         -- and a cost (Custo) account is accepted only in cost centers approved for it. A new cost center
+         -- is held until approved, instead of passing silently.
+         coalesce(list_contains([{% for code in var('classification_pending_expense_codes', []) %}'{{ code }}'{% if not loop.last %},{% endif %}{% endfor %}]::varchar[], expense_code)
+                  or (upper(trim(account_type)) = 'CUSTO' and official_cost_center is not null
+                      and not list_contains([{% for cc in var('cost_account_cost_centers', []) %}'{{ cc }}'{% if not loop.last %},{% endif %}{% endfor %}]::varchar[], official_cost_center)),
+                  false) as cost_expense_review_required,
          case when linked_employee_number is null then 'not_assessable_employee_missing'
               when request_ts_local is null then 'not_assessable_ride_date_missing'
               when nullif(admission_date_raw,'') is null then 'not_assessable_admission_date_missing'

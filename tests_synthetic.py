@@ -14,7 +14,7 @@ from pathlib import Path
 import duckdb
 import openpyxl
 
-from run import CANONICAL_FIELDS, ROOT, dbt_cli_for_python
+from run import CANONICAL_FIELDS, CONFIG, ROOT, dbt_cli_for_python
 
 
 # Outside the published output/: test artifacts must never block or pollute a real publication.
@@ -65,10 +65,13 @@ def write_csv(folder: Path, name: str, rows, reverse=False):
 
 
 def call_pipeline(input_dir: Path, output_dir: Path, resolutions: Path | None = None,
-                  expect_ok=True, as_of_date="2026-01-01", first_competence="2026-01",
-                  issued_ledger: Path | None = None, extra_args=()):
+                  expect_ok=True, as_of_date="2026-08-05", first_competence="2026-01",
+                  issued_ledger: Path | None = None, extra_args=(), override_reason="fixture sintética"):
+    # Fixtures are dated July/2026: the default as-of date is after July closes and the statement is issued.
     cmd = [sys.executable, str(ROOT / "run.py"), "--input", str(input_dir), "--output", str(output_dir),
            "--as-of-date", as_of_date, "--first-competence", first_competence, *extra_args]
+    if override_reason and first_competence < CONFIG["first_automated_competence"]:
+        cmd += ["--override-reason", override_reason]
     if resolutions:
         cmd += ["--resolutions", str(resolutions)]
     if issued_ledger:
@@ -230,6 +233,57 @@ def check_stage3_synthetic(folder: Path):
     assert "unrecognized.csv" in failed.stderr and "RuntimeError" in failed.stderr
     assert payable_hashes == (file_hash(valid_output / "ap_titulos.csv"), file_hash(valid_output / "ap_rateios.csv"))
     assert not list(folder.glob(".valid_output.build-*")), "a failed build must not leave its temporary folder"
+
+    # Files the loader cannot read (subfolder, other extension) stop the run instead of being skipped.
+    unsupported_input = folder / "unsupported" / "input"
+    shutil.copytree(valid_input, unsupported_input)
+    (unsupported_input / "setembro").mkdir()
+    shutil.copy2(valid_input / "transactions.csv", unsupported_input / "setembro" / "transactions.csv")
+    (unsupported_input / "notas.txt").write_text("export salvo em outro formato\n", encoding="utf-8")
+    failed = call_pipeline(unsupported_input, folder / "unsupported_output", expect_ok=False)
+    assert "setembro/transactions.csv" in failed.stderr and "notas.txt" in failed.stderr, failed.stderr
+
+    # Reopening months before the configured cut-over needs an explicit, recorded reason.
+    failed = call_pipeline(valid_input, folder / "no_reason_output", expect_ok=False, override_reason=None)
+    assert "--override-reason" in failed.stderr, failed.stderr
+    assert json.loads((valid_output / "run_summary.json").read_text(encoding="utf-8"))["first_competence_override_reason"] == "fixture sintética"
+
+    # A month is not payable before it ends, even when its detail already arrived.
+    open_month_output = folder / "open_month_output"
+    call_pipeline(valid_input, open_month_output, as_of_date="2026-07-31")
+    assert list(csv.DictReader((open_month_output / "ap_titulos.csv").open(encoding="utf-8", newline=""))) == []
+    assert read_rows(open_month_output / "canonical.duckdb",
+                     "select count(*) from int_ap_release_gate where list_contains(final_release_blockers,'competence_not_closed')") == [(2,)]
+
+    # A parent account flagged as postable is still synthetic and cannot receive allocation lines.
+    synthetic_input = make_stage3_fixture(folder / "synthetic_account", with_cards=True)
+    write_aux_csv(synthetic_input / "expense.csv", ["codigo_despesa", "descricao", "conta_contabil", "conta_gerencial_sugerida", "observacao"],
+                  [["GOOD", "Despesa em conta-mãe", "5.1.01", "G3.02", ""]])
+    write_aux_csv(synthetic_input / "accounts.csv", ["codigo", "descricao", "tipo", "natureza", "aceita_lancamento"],
+                  [["5.1.01", "Despesas", "Despesa", "D", "S"], ["5.1.01.001", "Despesa", "Despesa", "D", "S"]])
+    write_aux_csv(synthetic_input / "crosswalk.csv", ["conta_contabil", "conta_gerencial", "descricao_contabil", "descricao_gerencial"],
+                  [["5.1.01", "G3.02", "Despesas", "Despesa"]])
+    synthetic_output = folder / "synthetic_account_output"
+    call_pipeline(synthetic_input, synthetic_output)
+    assert read_rows(synthetic_output / "canonical.duckdb", "select count(*) from ap_titulos") == [(0,)]
+    assert read_rows(synthetic_output / "canonical.duckdb",
+                     "select count(*) from int_ap_release_gate where list_contains(final_release_blockers,'accounting_account_synthetic')") == [(2,)]
+
+    # A cost (Custo) account in a cost center not approved for it waits for the controller.
+    cost_input = make_stage3_fixture(folder / "cost_account", with_cards=True)
+    write_aux_csv(cost_input / "expense.csv", ["codigo_despesa", "descricao", "conta_contabil", "conta_gerencial_sugerida", "observacao"],
+                  [["GOOD", "Deslocamento de fábrica", "4.1.03.004", "G2.03", ""]])
+    write_aux_csv(cost_input / "accounts.csv", ["codigo", "descricao", "tipo", "natureza", "aceita_lancamento"],
+                  [["4.1.03.004", "Locomoção - Fábrica", "Custo", "D", "S"]])
+    write_aux_csv(cost_input / "crosswalk.csv", ["conta_contabil", "conta_gerencial", "descricao_contabil", "descricao_gerencial"],
+                  [["4.1.03.004", "G2.03", "Locomoção", "Custos indiretos"]])
+    write_aux_csv(cost_input / "managerial.csv", ["codigo_gerencial", "descricao", "grupo", "aceita_lancamento"],
+                  [["G2.03", "Custos indiretos", "Custo", "S"]])
+    cost_output = folder / "cost_account_output"
+    call_pipeline(cost_input, cost_output)
+    assert read_rows(cost_output / "canonical.duckdb", "select count(*) from ap_titulos") == [(0,)]
+    assert read_rows(cost_output / "canonical.duckdb",
+                     "select count(*) from int_ap_release_gate where list_contains(final_release_blockers,'cost_expense_classification_pending')") == [(2,)]
 
     cutover_output = folder / "cutover_output"
     call_pipeline(valid_input, cutover_output, as_of_date="2026-09-28", first_competence="2026-09")
@@ -403,7 +457,7 @@ def main():
     assert len(kept) == 1 and (kept[0] / "logs").is_dir(), kept
     shutil.rmtree(kept[0])
     check_stage3_synthetic(TEST_ROOT / "stage3")
-    print("synthetic_checks=PASS; scenarios=column_reorder,byte_alias,within_file_repeat,null_vs_zero,A15,unknown_type,identity_error,multi_fare,accept,reject,stale,rereun,money_residual,money_threshold,D8,failed_build_cleanup,keep_failed_build,inherited_output_acl,AP_valid_release,AP_reimbursement_release,erp_utf8_no_bom,card_brand_case_route_by_type,statement_resend_same_ids,statement_conflict_unknown_total,AP_whole_title_blocked_by_component,statement_overprecision,partial_month_period")
+    print("synthetic_checks=PASS; scenarios=column_reorder,byte_alias,within_file_repeat,null_vs_zero,A15,unknown_type,identity_error,multi_fare,accept,reject,stale,rereun,money_residual,money_threshold,D8,failed_build_cleanup,keep_failed_build,inherited_output_acl,AP_valid_release,AP_reimbursement_release,erp_utf8_no_bom,card_brand_case_route_by_type,statement_resend_same_ids,statement_conflict_unknown_total,AP_whole_title_blocked_by_component,statement_overprecision,partial_month_period,unsupported_input_files,cutover_override_reason,competence_not_closed,synthetic_account,cost_account_cost_center")
 
 
 if __name__ == "__main__":

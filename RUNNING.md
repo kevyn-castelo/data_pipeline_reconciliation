@@ -11,7 +11,7 @@ python -m venv .venv
 .\.venv\Scripts\python.exe bank_reconciliation.py --pipeline-output output --output reconciliation
 ```
 
-A data explícita reproduz o corte dos entregáveis versionados. Em uma execução operacional, informar a data de avaliação correta. `--first-competence YYYY-MM` controla o início da automação; setembro/2026 é uma premissa configurada para este case e depende de confirmação para implantação. Ela impede reimportar o histórico de julho/agosto. Não representa uma pendência para concluir a análise do case.
+A data explícita reproduz o corte dos entregáveis versionados. Em uma execução operacional, informar a data de avaliação correta. `--first-competence YYYY-MM` controla o início da automação; setembro/2026 é uma premissa configurada para este case e depende de confirmação para implantação. Ela impede reimportar o histórico de julho/agosto: um valor anterior ao configurado só é aceito com `--override-reason "<justificativa>"`, registrada em `run_summary.json` e no resumo do controller. Um título também só é liberado depois que sua competência terminou e com data de emissão até a data-base. Não representa uma pendência para concluir a análise do case.
 
 Em macOS/Linux, depois de instalar Python 3.14.x com `venv` e `pip`, o ambiente virtual usa `./.venv/bin/python` e o pipeline encontra `./.venv/bin/dbt`. Instalações mínimas do Ubuntu podem exigir o componente `venv` da distribuição:
 
@@ -22,7 +22,7 @@ python3.14 -m venv .venv
 ./.venv/bin/python bank_reconciliation.py --pipeline-output output --output reconciliation
 ```
 
-Os caminhos do executável dbt e os finais de linha dos relatórios foram tratados para os três sistemas. No Ubuntu, pipeline e conciliação executaram, os 67 passos dbt e as três verificações Python (dados, banco e suíte sintética) passaram, e 58 relatórios CSV/Markdown ou JSON sem metadados de versão coincidiram byte a byte com os do Windows. Os dois resumos JSON diferiram apenas pela versão do Python e pelo hash derivado dela. A suíte sintética completa também passou no Windows; macOS ainda não foi executado.
+Os caminhos do executável dbt e os finais de linha dos relatórios foram tratados para os três sistemas. No Ubuntu, pipeline e conciliação executaram, os 67 passos dbt da versão então validada e as três verificações Python (dados, banco e suíte sintética) passaram, e 58 relatórios CSV/Markdown ou JSON sem metadados de versão coincidiram byte a byte com os do Windows. Os dois resumos JSON diferiram apenas pela versão do Python e pelo hash derivado dela. A suíte sintética completa também passou no Windows; macOS ainda não foi executado.
 
 ## Onde estão os resultados
 
@@ -74,14 +74,14 @@ Depois do pipeline e da conciliação, o notebook recalcula a análise e o PDF d
 $env:PYTHONUTF8 = "1"; .\.venv\Scripts\jupyter-execute --inplace analysis\analise_uber_ap.ipynb
 ```
 
-O build executa 33 modelos, um seed e 33 testes dbt antes de publicar. A suíte sintética cobre liberação integral, retenção, reenvios, decisões, publicação e regras de RH/classificação. O teste bancário verifica o oráculo da amostra, conservação das atribuições, homônimos, N:1, CPF bloqueado e diferença material de boleto.
+O build executa 33 modelos, um seed e 34 testes dbt antes de publicar. A suíte sintética cobre liberação integral, retenção, reenvios, decisões, publicação, regras de RH/classificação, arquivos de entrada não suportados, corte antecipado sem justificativa, competência não encerrada, conta sintética e conta de Custo fora dos centros aprovados. O teste bancário verifica o oráculo da amostra, conservação das atribuições, homônimos, N:1, CPF bloqueado e diferença material de boleto.
 
 ## Reexecução e operação mensal
 
 1. Preservar os arquivos de origem em `data/`; o pipeline registra SHA-256, aba/linha e valores originais. A descoberta transacional e cadastral usa cabeçalhos, sem depender dos nomes dos arquivos.
-2. Para outra entrada, usar `--input <pasta>`. Para extrato em outro caminho, passar `--bank <arquivo.csv>` à conciliação. O resumo do controller detecta um extrato por cabeçalho na entrada; múltiplos extratos exigem seleção e conciliação separada.
+2. Para outra entrada, usar `--input <pasta>`. Todo arquivo da pasta precisa ser `.csv` ou `.xlsx` na raiz; subpastas e outras extensões interrompem a execução, a menos que o padrão esteja em `ignored_input_files` no `config/client.json` (os ignorados ficam no `input_manifest.json`). Para extrato em outro caminho, passar `--bank <arquivo.csv>` à conciliação. O resumo do controller detecta um extrato por cabeçalho na entrada; múltiplos extratos exigem seleção e conciliação separada.
 3. Resolver conflitos somente com evidência em `dbt/seeds/resolutions.csv` ou `--resolutions <arquivo.csv>`. Registrar títulos efetivamente emitidos em `config/issued_titles.csv` ou `--issued-ledger <arquivo.csv>`. O ledger desta amostra está vazio; não se inventaram IDs manuais do ERP.
-4. Aprovar Custo × Despesa e atualizar mapas na origem. As regras pendentes em `config/client.json` bloqueiam TRANSP-FUNC e ENTRE-UN nos CC300/CC310 mesmo que exista crosswalk. Só retirar essas pendências após decisão documentada.
+4. Aprovar Custo × Despesa e atualizar mapas na origem. Em `config/client.json`, `classification_pending_expense_codes` retém os códigos ainda sem decisão (hoje TRANSP-FUNC) mesmo que exista crosswalk, e `cost_account_cost_centers` lista os centros de custo aprovados para contas de Custo; conta de Custo em qualquer outro centro, inclusive um novo, fica retida (hoje ENTRE-UN em CC300/CC310). Conta contábil ou gerencial com subcontas é tratada como sintética mesmo que o plano marque `aceita_lancamento = S`. Só alterar essas listas após decisão documentada.
 5. Conferir o período de vínculo de RH na data da corrida. Status corrente inativo não invalida sozinho uma despesa histórica faturada à empresa; reembolso de desligado exige revisão explícita.
 6. Rodar o pipeline, verificar o resumo e arquivar retorno do ERP para cada título emitido. Os IDs são determinísticos, mas a prevenção entre execuções exige manter o ledger atualizado. A integração não grava no ERP.
 

@@ -8,8 +8,7 @@
   },
   "reimbursement_issue_date_rule": "last_day_of_competence_month",
   "first_automated_competence": "2026-09",
-  "classification_review_rules": [
-    {"expense_code": "TRANSP-FUNC", "cost_centers": []},
-    {"expense_code": "ENTRE-UN", "cost_centers": ["CC300", "CC310"]}
-  ]
+  "classification_pending_expense_codes": ["TRANSP-FUNC"],
+  "cost_account_cost_centers": ["CC200", "CC210", "CC220", "CC230", "CC250"],
+  "ignored_input_files": []
 }

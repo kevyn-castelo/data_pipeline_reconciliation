@@ -29,6 +29,11 @@ with line_totals as (
              case when tipo='FATURA_FORNECEDOR' and (num_documento is null or trim(num_documento)='' or length(num_documento)>40) then 'invoice_document_missing_or_exceeds_layout_length' end,
              case when competence is null or not regexp_matches(competence,'^[0-9]{4}-[0-9]{2}$') then 'competence_missing_or_invalid' end,
              case when competence is not null and competence < '{{ var("first_automated_competence") }}' then 'competence_before_automation_start' end,
+             -- A month is only payable after it ends: an export taken before month end (like the ad-hoc July report)
+             -- would otherwise release a title that later rows change.
+             case when regexp_matches(coalesce(competence,''),'^[0-9]{4}-[0-9]{2}$')
+                   and last_day(strptime(competence || '-01','%Y-%m-%d'))::date >= cast('{{ var("as_of_date") }}' as date) then 'competence_not_closed' end,
+             case when data_emissao is not null and data_emissao > cast('{{ var("as_of_date") }}' as date) then 'issue_date_after_as_of_date' end,
              case when issued_status is not null then 'title_already_issued_immutable' end,
              case when issued_status is not null and valor_total_candidato is distinct from issued_value then 'issued_title_value_changed_adjustment_required' end,
              case when data_emissao is null then 'issue_date_missing' end,
