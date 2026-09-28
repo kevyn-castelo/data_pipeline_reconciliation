@@ -22,7 +22,7 @@ python3.14 -m venv .venv
 ./.venv/bin/python bank_reconciliation.py --pipeline-output output --output reconciliation
 ```
 
-Os caminhos do executável dbt e os finais de linha dos relatórios foram tratados para os três sistemas. No Ubuntu, pipeline e conciliação executaram, os 67 passos dbt e os testes de dados e banco passaram, e 58 relatórios CSV/Markdown ou JSON sem metadados de versão coincidiram byte a byte com os do Windows. Os dois resumos JSON diferiram apenas pela versão do Python e pelo hash derivado dela. A suíte sintética completa passou no Windows; macOS ainda não foi executado.
+Os caminhos do executável dbt e os finais de linha dos relatórios foram tratados para os três sistemas. No Ubuntu, pipeline e conciliação executaram, os 67 passos dbt e as três verificações Python (dados, banco e suíte sintética) passaram, e 58 relatórios CSV/Markdown ou JSON sem metadados de versão coincidiram byte a byte com os do Windows. Os dois resumos JSON diferiram apenas pela versão do Python e pelo hash derivado dela. A suíte sintética completa também passou no Windows; macOS ainda não foi executado.
 
 ## Onde estão os resultados
 
