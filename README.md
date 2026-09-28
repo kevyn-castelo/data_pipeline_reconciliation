@@ -1,6 +1,60 @@
-# Indústria Madeireira Paraná Ltda — Uber for Business
+# Uber for Business → Alchemy ERP accounts payable
 
-## Client profile
+This repository implements the [Alchemy case requirements](TASK.md) for Indústria Madeireira Paraná Ltda. It reads the fictional Uber reports and client reference files in `data/`, produces canonical transactions and payable candidates, and records why a candidate cannot be imported. The optional bank reconciliation is a separate, read-only step. **Nothing connects to or posts into the ERP.**
+
+## Reproduce locally (Windows PowerShell)
+
+Use Windows, Git and Python **3.14.6** (the tested version). Dependency versions are pinned in [`requirements.txt`](requirements.txt). The first installation needs package-index access; the pipeline itself needs no API keys or external services. Run these commands from PowerShell:
+
+```powershell
+git clone https://github.com/kevyn-castelo/data_pipeline_reconciliation.git
+Set-Location .\data_pipeline_reconciliation
+python --version
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe run.py --input data --output output --as-of-date 2026-09-28
+.\.venv\Scripts\python.exe bank_reconciliation.py --pipeline-output output --bank data\extrato_itau_cc_2026-07_a_2026-09.csv --output reconciliation
+```
+
+Run the checks after generating `output/canonical.duckdb`:
+
+```powershell
+.\.venv\Scripts\python.exe tests_data_controls.py
+.\.venv\Scripts\python.exe tests_bank_reconciliation.py
+.\.venv\Scripts\python.exe tests_synthetic.py
+git diff --exit-code -- output reconciliation
+```
+
+The pipeline build should end with **PASS=67, ERROR=0**; the three Python checks should pass. The final `git diff` should print nothing for this fixed input set and date. A separate reproduction run matched all **52** versioned CSV/JSON/Markdown files in `output/` and all **8** in `reconciliation/` byte for byte. The tracked `output/` contains readable deliverables; its ignored DuckDB database, dbt artifacts and logs are recreated by `run.py`. Close any Excel or DuckDB handle on `output/` before rebuilding on Windows, because publication replaces that directory.
+
+`--as-of-date` is explicit so overdue decisions and the reports are reproducible. For a new closing period, use the actual evaluation date. The configured first automated competence, **2026-09**, is a case assumption awaiting client confirmation before deployment; it prevents historical July/August reimport. The code has been validated on Windows; other operating systems have not been validated because `run.py` looks for `dbt.exe` beside the virtual-environment Python.
+
+## Deliverables in this repository
+
+| `TASK.md` requirement | Open this result | How to read it |
+|---|---|---|
+| Normalized transactions and canonical decisions | [`output/stg_uber_transactions.csv`](output/stg_uber_transactions.csv), [`output/int_transactions.csv`](output/int_transactions.csv), [`output/int_transactions_resolved.csv`](output/int_transactions_resolved.csv) | RAW origin and conflicts remain traceable through `output/raw_uber_occurrences.csv` and `output/int_transaction_conflicts.csv`. |
+| User linking and monthly cost-center view | [`output/int_uber_email_links.csv`](output/int_uber_email_links.csv), [`output/int_monthly_cost_center_payment_summary.csv`](output/int_monthly_cost_center_payment_summary.csv) | Includes link status, payment route and `UNATTRIBUTED`. |
+| Alchemy payable and allocation imports | [`output/ap_titulos.csv`](output/ap_titulos.csv), [`output/ap_rateios.csv`](output/ap_rateios.csv) | Only fully approved titles and allocations reach these files. |
+| Held payables and traceability | [`output/ap_titulos_candidatos.csv`](output/ap_titulos_candidatos.csv), [`output/ap_rateios_candidatos.csv`](output/ap_rateios_candidatos.csv), [`output/ap_rateios_linhagem.csv`](output/ap_rateios_linhagem.csv) | Review blocker codes and source occurrence IDs before any ERP action. |
+| Three-bucket quality report | [`output/dq_report.csv`](output/dq_report.csv), [`output/dq_normalization_events.csv`](output/dq_normalization_events.csv) | `auto_fixable`, `rule_based` and `needs_client`; deterministic changes include before/after and source location. |
+| Controller summary and business insights | [`output/controller_summary.md`](output/controller_summary.md), [`docs/analise_senior_pipeline.md`](docs/analise_senior_pipeline.md) | Architecture, financial bridge, cost-center analysis and client decisions. |
+| Optional bank reconciliation | [`reconciliation/bank_reconciliation.csv`](reconciliation/bank_reconciliation.csv), [`reconciliation/README.md`](reconciliation/README.md) | Title, principal payment, duplicate, difference, bank movement and confidence are separate. |
+| Design and operations | [`RUNNING.md`](RUNNING.md), [`output/README.md`](output/README.md) | Detailed runbook, output index, publication and remaining limits. |
+
+For this sample, **588 Uber occurrences become 573 canonical candidates**. There are two invoice candidates and 18 reimbursement candidates. The ERP import CSVs contain **headers only**: no July/August title passes the configured competence, overdue and other release checks. The candidates and blocker columns show the amounts that were held; an empty import file does not mean that Uber spend or bank payments were zero. The bank report searches eligible candidate identities even when their ERP import is blocked, and never confirms an ERP settlement.
+
+## How the pipeline works and how to operate it
+
+`run.py` fingerprints each input and preserves source file, sheet/line and original values. DuckDB/dbt then builds staging, canonical candidates, e-mail → directory → employee → official cost-center links, accounting mappings, complete payable groups, release gates, quality issues and monthly summaries. `output/run_summary.json` records the input and code hashes, seed/ledger hashes, date and output counts. The build completes and passes dbt tests in a temporary sibling directory before `output/` is replaced. The bank step uses the built DuckDB database plus the chosen statement and writes separate reports; its rules are in [`config/reconciliation.json`](config/reconciliation.json).
+
+For a later month, pass `--input <folder>` and the new `--as-of-date YYYY-MM-DD`; the loader identifies supported CSV/XLSX layouts by headers rather than file names. Supply `--bank <statement.csv>` to reconcile a different bank file. Review [`RUNNING.md`](RUNNING.md) before changing `--first-competence`, entering evidence-backed resolutions (`--resolutions`) or recording **actually issued** ERP titles (`--issued-ledger`). Stable external IDs and the issued-title ledger prevent duplicate imports across runs only when that ledger is maintained from ERP returns. Decisions about Custo × Despesa, unresolved identities, dates, invoice details and financial charges must be approved by the client; the pipeline does not invent them.
+
+The original client profile, business rules and file inventory follow. They explain the joins and controls used by the implementation.
+
+## Client context and source files
+
+### Client profile
 
 - Furniture manufacturer, head office in downtown Curitiba and factory in Araucária (PR), ~70
   employees using Uber for Business.
@@ -17,7 +71,7 @@
   The `Group` field in the Uber report is maintained by whoever administers the Uber account and
   is not reliable for accounting.
 
-## Business rules (as described by the client's finance team)
+### Business rules (as described by the client's finance team)
 
 1. **Company-billed usage** (`Payment Method` = `Periodic Billing`) is billed monthly by Uber. On the
    first business day of the following month Uber publishes the **Demonstrativo Mensal** (monthly
@@ -45,7 +99,7 @@
    spend **grouped by cost center** every month, including what could not be attributed.
 8. Payables are imported into Alchemy ERP using `layout_importacao_contas_a_pagar.md`.
 
-## Files in `data/`
+### Files in `data/`
 
 | File | What it is |
 |---|---|
