@@ -1,0 +1,9 @@
+codigo_despesa,descricao,conta_contabil,conta_gerencial_sugerida,observacao
+VIS-CLI,Visita a cliente,5.1.02.004,G3.01,
+AERO,Deslocamento aeroporto,5.1.02.004,G3.01,
+EVENTO,Feiras e eventos,5.1.02.003,G2.03,definido pelo comercial em 2025
+ADM,Deslocamento administrativo,5.1.01.001,G3.02,
+ENTRE-UN,Deslocamento entre unidades (sede x fabrica),4.1.03.004,G2.03,
+TRANSP-FUNC,Transporte de funcionario - turno noturno,5.1.03.003,G3.03,
+HE-REF,Refeicao de hora extra,5.1.03.004,G3.03,
+TREIN,Treinamentos e cursos,5.1.03,G3.03,

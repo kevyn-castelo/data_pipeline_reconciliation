@@ -1,0 +1,12 @@
+# Código e documentação: sempre LF, em qualquer sistema. O code_sha256 do run_summary.json
+# é calculado sobre os bytes de run.py, config e dbt/, e não pode variar com o checkout.
+* text=auto eol=lf
+
+# Insumos, referências e evidências são versionados byte a byte: o SHA-256 de cada arquivo
+# faz parte do manifesto de entrada e da prova de reprodutibilidade. Sem conversão de fim de linha.
+data/** -text
+config/*.csv -text
+dbt/seeds/*.csv -text
+reconciliation/** -text
+*.xlsx binary
+*.duckdb binary

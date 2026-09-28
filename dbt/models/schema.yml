@@ -1,0 +1,66 @@
+version: 2
+models:
+  - name: stg_uber_transactions
+    columns:
+      - name: occurrence_id
+        data_tests: [not_null, unique]
+  - name: int_transaction_versions
+    columns:
+      - name: occurrence_id
+        data_tests: [not_null, unique]
+      - name: key_status
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [identity_unresolved, within_file_duplicate, conflict, equivalent, single]
+  - name: int_transactions
+    columns:
+      - name: key_status
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [identity_unresolved, within_file_duplicate, conflict, equivalent, single]
+      - name: amount_status
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [known, missing_in_source, disputed, parse_failed]
+      - name: resolution_status
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [none, applied, stale]
+      - name: transaction_id
+        data_tests:
+          - unique:
+              config:
+                where: "business_key is not null"
+  - name: int_transactions_resolved
+    columns:
+      - name: transaction_id
+        data_tests: [not_null, unique]
+  - name: int_uber_email_links
+    columns:
+      - name: email_norm
+        data_tests: [not_null, unique]
+      - name: email_link_status
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [linked, ambiguous, not_found]
+  - name: int_requester_email_links
+    columns:
+      - name: email_norm
+        data_tests: [not_null, unique]
+  - name: int_transaction_enrichment
+    columns:
+      - name: transaction_id
+        # Unresolved source identities are retained; NULL transaction_id is valid.
+        data_tests:
+          - unique:
+              config:
+                where: "business_key is not null"
+  - name: int_uber_vendor_candidates
+    columns:
+      - name: file_sha256
+        data_tests: [not_null]

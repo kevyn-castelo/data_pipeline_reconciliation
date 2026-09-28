@@ -1,0 +1,11 @@
+{
+  "client_id": "madeireira_parana",
+  "expected_company_header": "Industria Madeireira Parana Ltda",
+  "date_format_overrides": {},
+  "corporate_card_routes": {
+    "CREDITO_CORPORATIVO": "excluded_corporate_card_statement",
+    "DEBITO_CONTA_PJ": "needs_client_card_destination"
+  },
+  "reimbursement_issue_date_rule": "last_day_of_competence_month",
+  "first_automated_competence": "2026-09"
+}

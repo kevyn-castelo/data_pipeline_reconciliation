@@ -1,0 +1,25 @@
+name: uber_canonical
+version: '1.0.0'
+config-version: 2
+profile: uber_canonical
+model-paths: [models]
+seed-paths: [seeds]
+test-paths: [tests]
+macro-paths: [macros]
+clean-targets: [target, dbt_packages]
+vars:
+  client_id: madeireira_parana
+models:
+  uber_canonical:
+    +materialized: table
+seeds:
+  uber_canonical:
+    resolutions:
+      +column_types:
+        business_key: varchar
+        occurrence_ids_seen: varchar
+        action: varchar
+        chosen_occurrence_id: varchar
+        decided_by: varchar
+        decided_at: varchar
+        reason: varchar

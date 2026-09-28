@@ -1,0 +1,11 @@
+CODIGO	NOME	CENTRO_CUSTO_VINCULADO
+D01	Diretoria	CC101
+D02	Administracao e Financeiro	CC100
+D03	Recursos Humanos	CC120
+D04	Producao	CC200
+D05	Manutencao	CC200
+D06	Comercial e Vendas	CC300
+D07	Marketing	CC310
+D08	Logistica	CC400
+D09	Almoxarifado	CC410
+D10	Qualidade	CC555

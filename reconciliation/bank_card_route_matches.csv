@@ -1,0 +1,2 @@
+source_transaction_id,trip_id,bank_id,value,status,confidence
+UBR|madeireira_parana|0f379a2b-a719-40f7-a687-f7b074d49e43|2026-07-22T17:30|Fare,0f379a2b-a719-40f7-a687-f7b074d49e43,62212f4d4c2b678e:38,33.20,card_debit_matched_classification_pending,medium

@@ -1,0 +1,3 @@
+numero_demonstrativo;cnpj_emitente;periodo_inicio;periodo_fim;data_disponibilizacao;data_vencimento;forma_pagamento;cobrancas_usuario;taxas_servico;valor_total;observacao
+UBR-2026-07-004417;28.696.184/0001-95;01/07/2026;31/07/2026;03/08/2026;10/08/2026;Boleto;14.370,26;149,00;14.519,26;Periodo em UTC. Cobranca mensal (Periodic).
+UBR-2026-08-004981;28.696.184/0001-95;01/08/2026;31/08/2026;01/09/2026;10/09/2026;Boleto;14.864,55;149,00;15.013,55;Periodo em UTC. Cobranca mensal (Periodic).

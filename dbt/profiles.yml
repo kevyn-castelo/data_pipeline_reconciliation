@@ -1,0 +1,8 @@
+uber_canonical:
+  target: local
+  outputs:
+    local:
+      type: duckdb
+      path: "{{ env_var('PIPELINE_DB') }}"
+      schema: main
+      threads: 1

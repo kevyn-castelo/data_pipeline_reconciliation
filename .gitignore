@@ -1,0 +1,18 @@
+.venv/
+output/
+__pycache__/
+.pytest_cache/
+
+# Documentos internos de trabalho e revisão: mantidos localmente, fora do repositório público
+docs/prompt_analytics_engineer.md
+docs/parecer_analytics_engineer.md
+docs/verificacao_entregaveis_case.md
+docs/contrato_canonico_proposta_v0.md
+docs/contrato_canonico_proposta_v1.md
+docs/contrato_canonico_v2.md
+docs/contrato_canonico_v3.md
+docs/contrato_canonico_v3_1_adendo_resumo.md
+docs/decisoes_anteriores_canonical_para_comparacao.md
+
+# Identificador anônimo de telemetria do dbt, gerado por máquina (não é código)
+dbt/.user.yml

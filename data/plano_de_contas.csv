@@ -1,0 +1,74 @@
+codigo,descricao,tipo,natureza,aceita_lancamento
+1,ATIVO,Ativo,D,N
+1.1,ATIVO CIRCULANTE,Ativo,D,N
+1.1.01,Disponivel,Ativo,D,N
+1.1.02,Clientes,Ativo,D,N
+1.1.03,Estoques,Ativo,D,S
+2,PASSIVO,Passivo,C,N
+2.1,PASSIVO CIRCULANTE,Passivo,C,N
+2.1.01,Fornecedores,Passivo,C,N
+2.1.02,Obrigacoes Trabalhistas,Passivo,C,N
+2.1.03,Obrigacoes Tributarias,Passivo,C,N
+3,RECEITAS,Receita,C,N
+3.1,RECEITA OPERACIONAL,Receita,C,N
+4,CUSTOS,Custo,D,N
+4.1,CUSTO DOS PRODUTOS VENDIDOS,Custo,D,N
+4.1.01,Materias-Primas,Custo,D,S
+4.1.02,Mao de Obra Direta,Custo,D,N
+4.1.03,Custos Indiretos de Fabricacao,Custo,D,N
+5,DESPESAS,Despesa,D,N
+5.1,DESPESAS OPERACIONAIS,Despesa,D,N
+5.1.01,Despesas Administrativas,Despesa,D,N
+5.1.02,Despesas Comerciais,Despesa,D,S
+5.1.03,Despesas com Pessoal,Despesa,D,N
+5.1.04,Despesas Tributarias,Despesa,D,N
+6,RESULTADO,Resultado,C,N
+6.1,APURACAO DO RESULTADO,Resultado,C,N
+1.1.01.001,Caixa Geral,Ativo,D,S
+1.1.01.002,Banco do Brasil c/c,Ativo,D,S
+1.1.01.003,Itau c/c,Ativo,D,S
+1.1.02.001,Clientes Nacionais - B2B,Ativo,D,S
+1.1.02.002,Clientes - B2C,Ativo,D,S
+1.1.03.001,Estoque de Materias-Primas,Ativo,D,S
+1.1.03.002,Estoque de Produtos Acabados,Ativo,D,S
+2.1.01.001,Fornecedores Nacionais,Passivo,C,S
+2.1.02.001,Salarios a Pagar,Passivo,C,S
+2.1.02.002,FGTS a Recolher,Passivo,C,S
+2.1.02.003,INSS a Recolher,Passivo,C,S
+2.1.03.001,ICMS a Recolher,Passivo,C,S
+2.1.03.002,PIS a Recolher,Passivo,C,S
+2.1.03.003,COFINS a Recolher,Passivo,C,S
+3.1.01.001,Receita de Venda de Moveis - B2B,Receita,C,S
+3.1.01.002,Receita de Venda de Moveis - B2C,Receita,C,S
+3.1.01.003,Receita de Servicos de Montagem,Receita,C,S
+4.1.01.001,Aquisi��o de Mat�ria-Prima - Madeira,Custo,D,S
+4.1.01.002,Aquisicao de Materia-Prima - MDF/Aglomerado,Custo,D,S
+4.1.01.003,Aquisi��o de Insumos - Colas e Adesivos,Custo,D,S
+4.1.01.004,Aquisicao de Insumos - Tintas e Vernizes,Custo,D,S
+4.1.01.005,Aquisicao de Ferragens e Parafusos,Custo,D,S
+4.1.01.006,Aquisicao de Espumas e Tecidos,Custo,D,S
+4.1.02.001,Salarios - Mao de Obra Direta,Custo,D,S
+4.1.02.002,Encargos - Mao de Obra Direta,Custo,D,S
+4.1.03.001,Energia Eletrica - Fabrica,Custo,D,S
+4.1.03.002,Manutencao de Maquinas,Custo,D,S
+4.1.03.003,Depreciacao de Maquinas,Custo,D,S
+4.1.03.004,Locomocao - Fabrica,Custo,D,S
+5.1.01.001,Despesas Diversas,Despesa,D,S
+5.1.01.002,Material de Escritorio,Despesa,D,S
+5.1.01.003,Servi�os Cont�beis e Jur�dicos,Despesa,D,S
+5.1.01.004,Agua e Esgoto - Administrativo,Despesa,D,S
+5.1.01.005,Energia Eletrica - Administrativo,Despesa,D,S
+5.1.01.006,Telefonia e Internet,Despesa,D,S
+5.1.01.007,Limpeza e Conservacao,Despesa,D,S
+5.1.01.008,Seguranca e Vigilancia,Despesa,D,S
+5.1.02.001,Comissoes sobre Vendas,Despesa,D,S
+5.1.02.002,Fretes sobre Vendas,Despesa,D,S
+5.1.02.003,Publicidade e Propaganda,Despesa,D,S
+5.1.02.004,Viagens e Representacao,Despesa,D,S
+5.1.03.001,Salarios - Administrativo,Despesa,D,S
+5.1.03.002,Encargos Sociais - Administra��o,Despesa,D,S
+5.1.03.003,Vale-Transporte,Despesa,D,S
+5.1.03.004,Vale-Refeicao,Despesa,D,S
+5.1.04.001,Despesas com IPTU,Despesa,D,S
+5.1.04.002,Taxas e Contribui��es,Despesa,D,S
+6.1.01.001,Resultado do Exercicio,Resultado,C,S

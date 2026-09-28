@@ -1,0 +1,18 @@
+id_externo,bank_id,bank_date,bank_description,bank_value,status,confianca,regra
+UBERAP-28cc610ede87f0d04cf8f0c3b0778bff,62212f4d4c2b678e:59,2026-08-10,SISPAG BOLETO UBER DO BRASIL TECN,-14519.26,matched_exact,high,uber_boleto_name_due_window_amount
+UBERAP-09d99f49f30f33e13bbc4b67b5e90a6b,62212f4d4c2b678e:120,2026-09-11,SISPAG BOLETO UBER DO BRASIL TECN,-15318.82,matched_with_difference,medium,uber_boleto_amount_difference_requires_support
+UBERAP-c8f35bfd2784d79276a8301562739f68,62212f4d4c2b678e:74,2026-08-17,PIX TRANSF ANDRE FONSECA FILH,-61.89,matched_exact,high,unique_prefix_amount_due_window
+UBERAP-356f2e625d4d565deb8c852ce89b5899,62212f4d4c2b678e:126,2026-09-15,PIX TRANSF ANDRE FONSECA MORA,-110.40,matched_aggregate,medium,unique_same_beneficiary_two_title_sum
+UBERAP-d8cfea720c2d5111318675a3ce60fabb,62212f4d4c2b678e:75,2026-08-17,PIX TRANSF BIANCA AZEVEDO DA,-63.73,matched_exact,high,unique_prefix_amount_due_window
+UBERAP-b01dfab409564d8f4a786a4c11303140,62212f4d4c2b678e:77,2026-08-17,PIX TRANSF EDUARDO BATISTA MO,-76.97,matched_exact,high,unique_prefix_amount_due_window
+UBERAP-869c441b156b1309aa5df5f45f0fdc6d,62212f4d4c2b678e:76,2026-08-17,PIX TRANSF EDUARDO BATISTA DA,-94.93,matched_exact,high,unique_prefix_amount_due_window
+UBERAP-495272261a0d5719e3022b99f642af88,62212f4d4c2b678e:78,2026-08-17,PIX TRANSF MARCOS TAVARES,-73.78,matched_exact,high,unique_prefix_amount_due_window
+UBERAP-a80f2ec55acae6d873f7b3b7670b2f6d,62212f4d4c2b678e:125,2026-09-15,PIX TRANSF ANDRE FONSECA FILH,-40.79,matched_exact,high,unique_prefix_amount_due_window
+UBERAP-fb958d707045b4acf0e5ac220918c753,62212f4d4c2b678e:126,2026-09-15,PIX TRANSF ANDRE FONSECA MORA,-110.40,matched_aggregate,medium,unique_same_beneficiary_two_title_sum
+UBERAP-ad7406b06ef784db9c1f021670ddc8e6,62212f4d4c2b678e:127,2026-09-15,PIX TRANSF ANDRE FONSECA NETO,-85.04,matched_exact,high,unique_prefix_amount_due_window
+UBERAP-9f943b87306d1bfe1a43e7cda417510c,62212f4d4c2b678e:128,2026-09-15,PIX TRANSF BIANCA AZEVEDO DA,-115.29,matched_with_difference,medium,unique_prefix_due_window_within_5_cents
+UBERAP-f2edaae7e21f8f11d78094194c031b23,62212f4d4c2b678e:129,2026-09-15,PIX TRANSF CAMILA ROCHA NETO,-93.19,matched_exact,high,unique_prefix_amount_due_window
+UBERAP-117f4f6e2235139bb09050cd823d6b3a,62212f4d4c2b678e:130,2026-09-15,PIX TRANSF CAMILA ROCHA NETO,-169.49,matched_exact,high,unique_prefix_amount_due_window
+UBERAP-3c706371da031ffec8b9d89871b981c0,62212f4d4c2b678e:132,2026-09-15,PIX TRANSF EDUARDO BATISTA MO,-24.33,matched_exact,high,unique_prefix_amount_due_window
+UBERAP-244298ff338f95c88c61a2d1bd09de35,62212f4d4c2b678e:131,2026-09-15,PIX TRANSF EDUARDO BATISTA DA,-147.30,matched_exact,high,unique_prefix_amount_due_window
+UBERAP-7a45c5569160e3e6ae1d0f64d29872e4,62212f4d4c2b678e:133,2026-09-15,PIX TRANSF MARCOS TAVARES,-59.90,matched_exact,high,unique_prefix_amount_due_window

@@ -1,0 +1,20 @@
+version: 2
+sources:
+  - name: raw
+    schema: main
+    tables:
+      - name: raw_files
+      - name: raw_uber_occurrences
+      - name: raw_layouts
+      - name: raw_reference_inventory
+      - name: raw_issued_titles
+      - name: raw_ref_internal_users
+      - name: raw_ref_employees
+      - name: raw_ref_cost_centers
+      - name: raw_ref_corporate_cards
+      - name: raw_ref_expense_code_map
+      - name: raw_ref_accounting_accounts
+      - name: raw_ref_accounting_managerial_map
+      - name: raw_ref_managerial_accounts
+      - name: raw_ref_vendors
+      - name: raw_ref_statements

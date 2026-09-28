@@ -1,0 +1,33 @@
+conta_contabil,descricao_contabil,conta_gerencial,descricao_gerencial
+3.1.01.001,Receita de Venda de Moveis - B2B,G1.01,Receita - Mercado B2B
+3.1.01.002,Receita de Venda de Moveis - B2C,G1.02,Receita - Varejo B2C
+3.1.01.003,Receita de Servicos de Montagem,G1.01,Receita - Mercado B2B
+4.1.01.001,Aquisi��o de Mat�ria-Prima - Madeira,G2.01,Materia-Prima e Insumos
+4.1.01.002,Aquisicao de Materia-Prima - MDF/Aglomerado,G2.01,Materia-Prima e Insumos
+4.1.01.003,Aquisi��o de Insumos - Colas e Adesivos,G2.01,Materia-Prima e Insumos
+4.1.01.004,Aquisicao de Insumos - Tintas e Vernizes,G2.01,Materia-Prima e Insumos
+4.1.01.005,Aquisicao de Ferragens e Parafusos,G2.01,Materia-Prima e Insumos
+4.1.01.006,Aquisicao de Espumas e Tecidos,G2.01,Materia-Prima e Insumos
+4.1.02.001,Salarios - Mao de Obra Direta,G2.02,Mao de Obra Direta
+4.1.02.002,Encargos - Mao de Obra Direta,G2.02,Mao de Obra Direta
+4.1.03.001,Energia Eletrica - Fabrica,G2.03,Custos Indiretos de Fabricacao
+4.1.03.002,Manutencao de Maquinas,G2.03,Custos Indiretos de Fabricacao
+4.1.03.003,Depreciacao de Maquinas,G2.03,Custos Indiretos de Fabricacao
+4.1.03.004,Locomocao - Fabrica,G2.03,Custos Indiretos de Fabricacao
+5.1.01.001,Despesas Diversas,G3.02,Despesas Administrativas
+5.1.01.002,Material de Escritorio,G3.02,Despesas Administrativas
+5.1.01.003,Servi�os Cont�beis e Jur�dicos,G3.02,Despesas Administrativas
+5.1.01.004,Agua e Esgoto - Administrativo,G3.02,Despesas Administrativas
+5.1.01.005,Energia Eletrica - Administrativo,G3.02,Despesas Administrativas
+5.1.01.006,Telefonia e Internet,G3.02,Despesas Administrativas
+5.1.01.007,Limpeza e Conservacao,G3.02,Despesas Administrativas
+5.1.01.008,Seguranca e Vigilancia,G3.02,Despesas Administrativas
+5.1.02.001,Comissoes sobre Vendas,G3.01,Despesas Comerciais
+5.1.02.002,Fretes sobre Vendas,G3.01,Despesas Comerciais
+5.1.02.003,Publicidade e Propaganda,G3.01,Despesas Comerciais
+5.1.02.004,Viagens e Representacao,G3.01,Despesas Comerciais
+5.1.03.001,Salarios - Administrativo,G3.03,Despesas com Pessoal
+5.1.03.002,Encargos Sociais - Administra��o,G3.03,Despesas com Pessoal
+5.1.03.004,Vale-Refeicao,G3.03,Despesas com Pessoal
+5.1.04.001,Despesas com IPTU,G3.04,Despesas Tributarias
+5.1.04.002,Taxas e Contribui��es,G3.04,Despesas Tributarias

@@ -1,0 +1,47 @@
+bank_id,source_file,source_line,date,description,value,category
+62212f4d4c2b678e:7,extrato_itau_cc_2026-07_a_2026-09.csv,7,2026-07-01,SISPAG SALARIOS,-984.49,outside_uber_ap_scope
+62212f4d4c2b678e:8,extrato_itau_cc_2026-07_a_2026-09.csv,8,2026-07-01,SISPAG SALARIOS,-20747.28,outside_uber_ap_scope
+62212f4d4c2b678e:10,extrato_itau_cc_2026-07_a_2026-09.csv,10,2026-07-02,SISPAG CONCESSIONARIAS COPEL,-40185.66,outside_uber_ap_scope
+62212f4d4c2b678e:11,extrato_itau_cc_2026-07_a_2026-09.csv,11,2026-07-02,SISPAG FORNECEDORES MADEIREIRA TIBAGI,-15089.20,outside_uber_ap_scope
+62212f4d4c2b678e:14,extrato_itau_cc_2026-07_a_2026-09.csv,14,2026-07-03,SISPAG CONCESSIONARIAS COPEL,-41693.56,outside_uber_ap_scope
+62212f4d4c2b678e:16,extrato_itau_cc_2026-07_a_2026-09.csv,16,2026-07-07,SISPAG CONCESSIONARIAS COPEL,-21199.39,outside_uber_ap_scope
+62212f4d4c2b678e:18,extrato_itau_cc_2026-07_a_2026-09.csv,18,2026-07-09,SISPAG CONCESSIONARIAS COPEL,-34857.81,outside_uber_ap_scope
+62212f4d4c2b678e:19,extrato_itau_cc_2026-07_a_2026-09.csv,19,2026-07-09,SISPAG TRIBUTOS DARF,-44514.57,outside_uber_ap_scope
+62212f4d4c2b678e:23,extrato_itau_cc_2026-07_a_2026-09.csv,23,2026-07-14,SISPAG TRIBUTOS DARF,-15566.37,outside_uber_ap_scope
+62212f4d4c2b678e:25,extrato_itau_cc_2026-07_a_2026-09.csv,25,2026-07-15,TAR PACOTE SERVICOS,-89.90,outside_uber_ap_scope
+62212f4d4c2b678e:27,extrato_itau_cc_2026-07_a_2026-09.csv,27,2026-07-16,SISPAG CONCESSIONARIAS COPEL,-31096.47,outside_uber_ap_scope
+62212f4d4c2b678e:29,extrato_itau_cc_2026-07_a_2026-09.csv,29,2026-07-17,SISPAG SALARIOS,-4592.05,outside_uber_ap_scope
+62212f4d4c2b678e:31,extrato_itau_cc_2026-07_a_2026-09.csv,31,2026-07-21,SISPAG FORNECEDORES MADEIREIRA TIBAGI,-21037.53,outside_uber_ap_scope
+62212f4d4c2b678e:33,extrato_itau_cc_2026-07_a_2026-09.csv,33,2026-07-22,SISPAG FORNECEDORES SERRARIA PINHEIRO,-14860.64,outside_uber_ap_scope
+62212f4d4c2b678e:34,extrato_itau_cc_2026-07_a_2026-09.csv,34,2026-07-22,SISPAG SALARIOS,-6150.82,outside_uber_ap_scope
+62212f4d4c2b678e:36,extrato_itau_cc_2026-07_a_2026-09.csv,36,2026-07-23,SISPAG TRIBUTOS DARF,-34499.59,outside_uber_ap_scope
+62212f4d4c2b678e:37,extrato_itau_cc_2026-07_a_2026-09.csv,37,2026-07-23,TAR PACOTE SERVICOS,-129.90,outside_uber_ap_scope
+62212f4d4c2b678e:44,extrato_itau_cc_2026-07_a_2026-09.csv,44,2026-07-31,TAR PACOTE SERVICOS,-129.90,outside_uber_ap_scope
+62212f4d4c2b678e:49,extrato_itau_cc_2026-07_a_2026-09.csv,49,2026-08-04,SISPAG FORNECEDORES ADESUL,-6887.00,outside_uber_ap_scope
+62212f4d4c2b678e:52,extrato_itau_cc_2026-07_a_2026-09.csv,52,2026-08-05,SISPAG FORNECEDORES MADEIREIRA TIBAGI,-12359.72,outside_uber_ap_scope
+62212f4d4c2b678e:57,extrato_itau_cc_2026-07_a_2026-09.csv,57,2026-08-07,SISPAG FORNECEDORES MADEIREIRA TIBAGI,-22474.22,outside_uber_ap_scope
+62212f4d4c2b678e:60,extrato_itau_cc_2026-07_a_2026-09.csv,60,2026-08-10,SISPAG CONCESSIONARIAS COPEL,-31469.24,outside_uber_ap_scope
+62212f4d4c2b678e:63,extrato_itau_cc_2026-07_a_2026-09.csv,63,2026-08-11,SISPAG SALARIOS,-39192.70,outside_uber_ap_scope
+62212f4d4c2b678e:64,extrato_itau_cc_2026-07_a_2026-09.csv,64,2026-08-11,TAR PACOTE SERVICOS,-129.90,outside_uber_ap_scope
+62212f4d4c2b678e:66,extrato_itau_cc_2026-07_a_2026-09.csv,66,2026-08-12,SISPAG FORNECEDORES SERRARIA PINHEIRO,-32419.92,outside_uber_ap_scope
+62212f4d4c2b678e:67,extrato_itau_cc_2026-07_a_2026-09.csv,67,2026-08-12,SISPAG SALARIOS,-29924.63,outside_uber_ap_scope
+62212f4d4c2b678e:70,extrato_itau_cc_2026-07_a_2026-09.csv,70,2026-08-13,TAR PACOTE SERVICOS,-89.90,outside_uber_ap_scope
+62212f4d4c2b678e:72,extrato_itau_cc_2026-07_a_2026-09.csv,72,2026-08-14,SISPAG FORNECEDORES SERRARIA PINHEIRO,-7749.98,outside_uber_ap_scope
+62212f4d4c2b678e:80,extrato_itau_cc_2026-07_a_2026-09.csv,80,2026-08-18,PIX TRANSF MARCOS TAVARES,-73.78,duplicate_payment
+62212f4d4c2b678e:81,extrato_itau_cc_2026-07_a_2026-09.csv,81,2026-08-18,SISPAG FORNECEDORES MADEIREIRA TIBAGI,-37660.44,outside_uber_ap_scope
+62212f4d4c2b678e:86,extrato_itau_cc_2026-07_a_2026-09.csv,86,2026-08-20,SISPAG FORNECEDORES SERRARIA PINHEIRO,-13547.13,outside_uber_ap_scope
+62212f4d4c2b678e:87,extrato_itau_cc_2026-07_a_2026-09.csv,87,2026-08-20,SISPAG SALARIOS,-10434.68,outside_uber_ap_scope
+62212f4d4c2b678e:89,extrato_itau_cc_2026-07_a_2026-09.csv,89,2026-08-24,SISPAG FORNECEDORES MADEIREIRA TIBAGI,-23385.96,outside_uber_ap_scope
+62212f4d4c2b678e:94,extrato_itau_cc_2026-07_a_2026-09.csv,94,2026-08-26,SISPAG CONCESSIONARIAS COPEL,-22173.68,outside_uber_ap_scope
+62212f4d4c2b678e:96,extrato_itau_cc_2026-07_a_2026-09.csv,96,2026-08-27,SISPAG FORNECEDORES MADEIREIRA TIBAGI,-9323.91,outside_uber_ap_scope
+62212f4d4c2b678e:99,extrato_itau_cc_2026-07_a_2026-09.csv,99,2026-08-28,SISPAG FORNECEDORES ADESUL,-18089.12,outside_uber_ap_scope
+62212f4d4c2b678e:102,extrato_itau_cc_2026-07_a_2026-09.csv,102,2026-08-31,SISPAG FORNECEDORES MADEIREIRA TIBAGI,-34389.60,outside_uber_ap_scope
+62212f4d4c2b678e:103,extrato_itau_cc_2026-07_a_2026-09.csv,103,2026-08-31,SISPAG SALARIOS,-3072.78,outside_uber_ap_scope
+62212f4d4c2b678e:108,extrato_itau_cc_2026-07_a_2026-09.csv,108,2026-09-02,SISPAG TRIBUTOS DARF,-14990.30,outside_uber_ap_scope
+62212f4d4c2b678e:110,extrato_itau_cc_2026-07_a_2026-09.csv,110,2026-09-04,SISPAG FORNECEDORES ADESUL,-13641.90,outside_uber_ap_scope
+62212f4d4c2b678e:113,extrato_itau_cc_2026-07_a_2026-09.csv,113,2026-09-07,SISPAG CONCESSIONARIAS COPEL,-19288.79,outside_uber_ap_scope
+62212f4d4c2b678e:115,extrato_itau_cc_2026-07_a_2026-09.csv,115,2026-09-08,SISPAG CONCESSIONARIAS COPEL,-43812.00,outside_uber_ap_scope
+62212f4d4c2b678e:116,extrato_itau_cc_2026-07_a_2026-09.csv,116,2026-09-08,SISPAG FORNECEDORES ADESUL,-28995.39,outside_uber_ap_scope
+62212f4d4c2b678e:123,extrato_itau_cc_2026-07_a_2026-09.csv,123,2026-09-14,SISPAG FORNECEDORES MADEIREIRA TIBAGI,-35732.01,outside_uber_ap_scope
+62212f4d4c2b678e:134,extrato_itau_cc_2026-07_a_2026-09.csv,134,2026-09-15,TAR PACOTE SERVICOS,-89.90,outside_uber_ap_scope
+62212f4d4c2b678e:138,extrato_itau_cc_2026-07_a_2026-09.csv,138,2026-09-18,SISPAG CONCESSIONARIAS COPEL,-17350.76,outside_uber_ap_scope

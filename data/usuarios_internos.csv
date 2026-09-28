@@ -1,0 +1,77 @@
+id_usuario,nome_exibicao,email_principal,emails_alternativos,matricula,centro_custo,status,ultimo_acesso
+U3160,Isabela Camargo Moraes,isabela.moraes@madeiraparana.com.br,isabela.moraes@madeireiraparana.com.br,1060,CC110,ATIVO,2026-09-01
+U3161,Mariana Lopes Junior,mariana.junior@madeiraparana.com.br,mariana.junior@madeireiraparana.com.br,1061,CC200,ATIVO,2026-09-05
+U3117,Beatriz Ferraz da Silva,beatriz.silva@madeiraparana.com.br,beatriz.silva@madeireiraparana.com.br,1017,CC110,ATIVO,2026-09-05
+U3139,Andre Fonseca Neto,andre.neto2@madeiraparana.com.br,,1039,CC120,ATIVO,2026-09-05
+U3152,Rafael Oliveira da Silva,rafael.silva@madeiraparana.com.br,,1052,CC200,ATIVO,2026-09-07
+U3141,Natalia Vieira Junior,natalia.junior@madeiraparana.com.br,natalia.junior@madeireiraparana.com.br,1041,CC110,ATIVO,2026-09-05
+U3104,Rodrigo Pereira Filho,rodrigo.filho@madeiraparana.com.br,rodrigo.filho@madeireiraparana.com.br,1004,CC200,ATIVO,2026-09-09
+U3127,Eduardo Batista Moraes,eduardo.moraes@madeiraparana.com.br,,1027,CC310,ATIVO,2026-09-06
+U3134,Rafael Oliveira Neto,rafael.neto@madeiraparana.com.br,,1034,CC200,ATIVO,2026-09-06
+U3144,Bianca Azevedo da Silva,bianca.silva@madeiraparana.com.br,bianca.silva@madeireiraparana.com.br,1044,CC100,ATIVO,2026-09-06
+U3110,Camila Rocha Filho,camila.filho@madeiraparana.com.br,,1010,CC200,ATIVO,2026-09-04
+U3165,Andre Fonseca da Silva,andre.silva@madeiraparana.com.br,,1065,CC300,ATIVO,2026-09-02
+U3157,Juliana Martins,JULIANA.MARTINS@MADEIRAPARANA.COM.BR,,1057,CC310,ATIVO,2026-09-08
+U3163,Fabio Antunes da Silva,fabio.silva@madeiraparana.com.br,,1063,CC120,ATIVO,2026-09-08
+U3126,Henrique Duarte Junior,henrique.junior@madeiraparana.com.br,henrique.junior@madeireiraparana.com.br|comercial@madeiraparana.com.br,1026,CC310,ATIVO,2026-09-07
+U3111,Marcos Tavares,marcos.tavares@madeiraparana.com.br,marcos.tavares@madeireiraparana.com.br,1011,CC310,ATIVO,2026-09-08
+U3114,Andre Fonseca Neto,andre.neto@madeiraparana.com.br,,1014,CC300,ATIVO,2026-09-03
+U9003,Consultoria Externa - Joao Prestes,joao.prestes@consultoria-externa.example.com,,,,SUSPENSO,2026-05-02
+U3129,Bruno Carvalho,BRUNO.CARVALHO@MADEIRAPARANA.COM.BR,bruno.carvalho@madeireiraparana.com.br,1029,CC111,ATIVO,2026-09-02
+U3142,Thiago Correia da Silva,thiago.silva2@madeiraparana.com.br,,1042,CC100,ATIVO,2026-09-06
+U3121,Thiago Correia da Silva,thiago.silva@madeiraparana.com.br,comercial@madeiraparana.com.br,1021,CC300,ATIVO,2026-09-09
+U3133,Felipe Araujo Junior,felipe.junior@madeiraparana.com.br,,1033,CC400,SUSPENSO,2026-08-20
+U3135,Diego Nascimento de Souza,diego.souza@madeiraparana.com.br,diego.souza@madeireiraparana.com.br,1035,CC300,ATIVO,2026-09-09
+U3106,Vanessa Dias de Souza,vanessa.souza@madeiraparana.com.br,,1006,CC777,ATIVO,2026-09-04
+U3172,Rogerio Paranhos,rogerio.paranhos@madeiraparana.com.br,rogerio.paranhos@madeireiraparana.com.br,1202,CC101,ATIVO,2026-09-07
+U3159,Priscila Moraes Moraes,priscila.moraes@madeiraparana.com.br,,1059,CC100,ATIVO,2026-09-02
+U3113,Marcos Tavares Junior,marcos.junior@madeiraparana.com.br,,1013,CC200,ATIVO,2026-09-01
+U3116,Diego Nascimento Neto,diego.neto@madeiraparana.com.br,diego.neto@madeireiraparana.com.br,1016,CC220,ATIVO,2026-09-07
+U3112,Marcos Tavares Neto,marcos.neto@madeiraparana.com.br,,1012,CC110,ATIVO,2026-09-01
+U9001,Integracao Financeiro (conta de servico),financeiro.bot@madeiraparana.com.br,,,CC110,ATIVO,2026-09-10
+U3130,Eduardo Batista da Silva,eduardo.silva@madeiraparana.com.br,eduardo.silva@madeireiraparana.com.br,1030,CC100,ATIVO,2026-09-03
+U3140,Andre Fonseca Junior,andre.junior@madeiraparana.com.br,andre.junior@madeireiraparana.com.br,1040,CC250,ATIVO,2026-09-07
+U3137,Vanessa Dias de Souza,vanessa.souza2@madeiraparana.com.br,vanessa.souza2@madeireiraparana.com.br,1037,CC220,ATIVO,2026-09-09
+U3156,Leonardo Santos,leonardo.santos2@madeiraparana.com.br,,1056,CC310,ATIVO,2026-09-03
+U3136,Andre Fonseca Moraes,ANDRE.MORAES2@MADEIRAPARANA.COM.BR,,1036,CC300,ATIVO,2026-09-01
+U3105,Camila Rocha Neto,camila.neto@madeiraparana.com.br,,1005,CC410,ATIVO,2026-09-07
+U9002,TI Suporte (conta de servico),ti.suporte@madeiraparana.com.br,helpdesk@madeiraparana.com.br,,,ATIVO,2026-09-08
+U3103,Aline Barbosa da Silva,aline.silva@madeiraparana.com.br,aline.silva@madeireiraparana.com.br,1003,CC120,ATIVO,2026-09-01
+U3101,Patricia Gomes,PATRICIA.GOMES@MADEIRAPARANA.COM.BR,,1001,CC210,ATIVO,2026-09-07
+U3148,Beatriz Ferraz Filho,beatriz.filho@madeiraparana.com.br,,1048,CC410,ATIVO,2026-09-03
+U3162,Eduardo Batista,eduardo.batista@madeiraparana.com.br,,1062,CC120,SUSPENSO,2026-06-30
+U3138,Gustavo Moreira da Silva,gustavo.silva@madeiraparana.com.br,gustavo.silva@madeireiraparana.com.br,1038,CC120,ATIVO,2026-09-08
+U3153,Mariana Lopes da Silva,mariana.silva@madeiraparana.com.br,mariana.silva@madeireiraparana.com.br,1053,CC310,ATIVO,2026-09-04
+U3132,Priscila Moraes Junior,priscila.junior@madeiraparana.com.br,priscila.junior@madeireiraparana.com.br,1032,CC100,ATIVO,2026-09-09
+U3145,Diego Nascimento da Silva,diego.silva@madeiraparana.com.br,diego.silva@madeireiraparana.com.br,1045,CC110,ATIVO,2026-09-03
+U3143,Felipe Araujo Junior,FELIPE.JUNIOR2@MADEIRAPARANA.COM.BR,felipe.junior2@madeireiraparana.com.br,1043,CC400,ATIVO,2026-09-04
+U3151,Marcos Tavares Junior,marcos.junior2@madeiraparana.com.br,,1051,CC310,ATIVO,2026-09-05
+U3128,Camila Rocha de Souza,camila.souza@madeiraparana.com.br,,1028,CC210,ATIVO,2026-09-05
+U3102,Thiago Correia Filho,thiago.filho@madeiraparana.com.br,thiago.filho@madeireiraparana.com.br,1002,CC410,ATIVO,2026-09-05
+U3147,Marcos Tavares de Souza,marcos.souza@madeiraparana.com.br,marcos.souza@madeireiraparana.com.br,1047,CC110,ATIVO,2026-09-01
+U3171,Helena Paranhos,helena.paranhos@madeiraparana.com.br,,1201,CC101,ATIVO,2026-09-08
+U3109,Andre Fonseca Moraes,andre.moraes@madeiraparana.com.br,andre.moraes@madeireiraparana.com.br,1009,CC100,ATIVO,2026-09-07
+U3146,Carlos Eduardo Souza Neto,carlos.neto@madeiraparana.com.br,carlos.neto@madeireiraparana.com.br,1046,CC210,ATIVO,2026-09-05
+U3168,Bruno Carvalho Filho,bruno.filho@madeiraparana.com.br,,1068,CC310,ATIVO,2026-09-03
+U3131,Andre Fonseca de Souza,andre.souza@madeiraparana.com.br,andre.souza@madeireiraparana.com.br,1031,CC230,ATIVO,2026-09-03
+U3164,Ana Paula Ribeiro Junior,ANA.JUNIOR@MADEIRAPARANA.COM.BR,,1064,CC200,ATIVO,2026-09-06
+U3107,Ricardo Lima Filho,ricardo.filho@madeiraparana.com.br,ricardo.filho@madeireiraparana.com.br,1007,CC210,ATIVO,2026-09-05
+U3169,Daniela Freitas,daniela.freitas@madeiraparana.com.br,,1069,CC120,ATIVO,2026-09-03
+U3122,Felipe Araujo de Souza,FELIPE.SOUZA@MADEIRAPARANA.COM.BR,felipe.souza@madeireiraparana.com.br,1022,CC200,ATIVO,2026-09-04
+U3166,Andre Fonseca Filho,andre.filho@madeiraparana.com.br,,1066,CC300,ATIVO,2026-09-05
+U3150,Gustavo Moreira da Silva,GUSTAVO.SILVA2@MADEIRAPARANA.COM.BR,gustavo.silva2@madeireiraparana.com.br,1050,CC310,ATIVO,2026-09-04
+U3123,Larissa Teixeira Filho,larissa.filho@madeiraparana.com.br,,1023,CC310,ATIVO,2026-09-05
+U3155,Juliana Martins de Souza,juliana.souza@madeiraparana.com.br,juliana.souza@madeireiraparana.com.br,1055,CC220,ATIVO,2026-09-03
+U3154,Sabrina Cunha,sabrina.cunha@madeiraparana.com.br,,1054,CC100,ATIVO,2026-09-01
+U3124,Fabio Antunes de Souza,fabio.souza@madeiraparana.com.br,,1024,CC120,ATIVO,2026-09-08
+U3149,Carlos Eduardo Souza Junior,carlos.junior@madeiraparana.com.br,carlos.junior@madeireiraparana.com.br,1049,CC210,ATIVO,2026-09-02
+U3118,Diego Nascimento Junior,diego.junior@madeiraparana.com.br,,1018,CC410,ATIVO,2026-09-09
+U3125,Diego Nascimento,diego.nascimento@madeiraparana.com.br,,1025,CC210,ATIVO,2026-09-03
+U3120,Mariana Lopes,mariana.lopes@madeiraparana.com.br,mariana.lopes@madeireiraparana.com.br,1020,CC110,ATIVO,2026-09-05
+U3158,Daniela Freitas Filho,daniela.filho@madeiraparana.com.br,,1058,CC230,ATIVO,2026-09-05
+U3108,Camila Rocha Neto,CAMILA.NETO2@MADEIRAPARANA.COM.BR,,1008,CC310,ATIVO,2026-09-08
+U3170,Fabio Antunes,fabio.antunes@madeiraparana.com.br,,1070,CC210,ATIVO,2026-09-05
+U3167,Diego Nascimento Junior,diego.junior2@madeiraparana.com.br,,1067,CC200,ATIVO,2026-09-07
+U3115,Leonardo Santos,LEONARDO.SANTOS@MADEIRAPARANA.COM.BR,,1015,CC100,ATIVO,2026-09-03
+U3119,Tatiane Cardoso Neto,tatiane.neto@madeiraparana.com.br,tatiane.neto@madeireiraparana.com.br,1019,CC220,ATIVO,2026-09-01
+U2007,Mariana Lopes,mariana.lopes@madeiraparana.com.br,,1020,CC100,SUSPENSO,2023-11-14

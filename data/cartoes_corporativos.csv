@@ -1,0 +1,4 @@
+bandeira,final,tipo,titular,banco_emissor,observacao
+AMERICAN_EXPRESS,3008,CREDITO_CORPORATIVO,Industria Madeireira Parana Ltda,Bradesco,fatura do cartao paga pelo processo de cartao corporativo
+VISA,0042,DEBITO_CONTA_PJ,Industria Madeireira Parana Ltda,Itau,cartao de debito da conta corrente 45123-7
+MASTERCARD,5510,CREDITO_CORPORATIVO,Industria Madeireira Parana Ltda,Itau,cancelado em 03/2026

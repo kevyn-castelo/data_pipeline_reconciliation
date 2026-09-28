@@ -1,0 +1,16 @@
+codigo_gerencial,descricao,grupo,aceita_lancamento
+G1,RECEITA LIQUIDA,Receita,N
+G2,CUSTOS DE PRODUCAO (CMV),Custo,N
+G3,DESPESAS OPERACIONAIS,Despesa,S
+G4,RESULTADO FINANCEIRO,Financeiro,N
+G1.01,Receita - Mercado B2B,Receita,S
+G1.02,Receita - Varejo B2C,Receita,S
+G2.01,Materia-Prima e Insumos,Custo,S
+G2.02,Mao de Obra Direta,Custo,S
+G2.03,Custos Indiretos de Fabricacao,Custo,S
+G3.01,Despesas Comerciais,Despesa,S
+G3.02,Despesas Administrativas,Despesa,S
+G3.03,Despesas com Pessoal,Despesa,S
+G3.04,Despesas Tributarias,Despesa,S
+G4.01,Receitas Financeiras,Financeiro,S
+G4.02,Despesas Financeiras,Financeiro,S

@@ -1,0 +1,20 @@
+{
+  "bank_file_sha256": "62212f4d4c2b678e534be4c51b149467c05978cef6d2d7e30418c61d05ec502d",
+  "reconciliation_code_sha256": "de74b394d967c323870c7c6a733d4aa5caf36b435fc696dfbf6cf38a5a175748",
+  "pipeline_code_sha256": "fe3db87953326fa6e26cd46f5c27de90173a42835cc0bc610f2f20a48bd19148",
+  "title_status_counts": {
+    "held_unpayable": 2,
+    "matched_aggregate": 2,
+    "matched_exact": 13,
+    "matched_with_difference": 2,
+    "open_as_of_statement_end": 1
+  },
+  "unmatched_debit_counts": {
+    "duplicate_payment": 1,
+    "outside_uber_ap_scope": 45
+  },
+  "paid_more_than_once_title_count": 1,
+  "visa_route_match_count": 1,
+  "bank_movement_count": 86,
+  "note": "Evidência de extrato; confirmações de ERP, encargos e classificação ainda requeridas."
+}
