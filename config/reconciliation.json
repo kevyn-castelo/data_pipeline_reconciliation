@@ -1,0 +1,10 @@
+{
+  "pix_days_before_due": 2,
+  "pix_days_after_due": 45,
+  "pix_difference_tolerance_brl": "0.05",
+  "invoice_days_before_due": 2,
+  "invoice_days_after_due": 10,
+  "invoice_max_difference_brl": "500.00",
+  "invoice_max_difference_ratio": "0.05",
+  "card_days_from_ride": 3
+}

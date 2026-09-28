@@ -18,6 +18,8 @@ assert con.execute("select count(*) from compliance_transaction_flags where eats
 assert con.execute("select count(*) from compliance_transaction_flags where weekend_policy_status='policy_violation_weekend_program'").fetchone()[0] == 6
 assert con.execute("select count(*) from ap_titulos").fetchone()[0] == 0
 assert con.execute("select count(*) from ap_rateios").fetchone()[0] == 0
+assert con.execute("select count(*) from int_ap_component_candidates where expense_code='ENTRE-UN' and official_cost_center in ('CC300','CC310') and not list_contains(component_blockers,'cost_expense_classification_pending')").fetchone()[0] == 0
+assert con.execute("select count(*) from int_ap_component_candidates where employment_at_ride_status='within_employment_period' and (list_contains(component_blockers,'employee_link_employee_inactive') or list_contains(component_blockers,'stage3_gate:inactive_or_suspended'))").fetchone()[0] == 0
 assert [[str(x) for x in row] for row in con.execute(
     "select charge_residual, fee_residual from int_statement_detail_reconciliation order by competence"
 ).fetchall()] == [["110.02", "0.00"], ["104.56", "0.00"]]

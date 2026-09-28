@@ -1,0 +1,109 @@
+{
+  "unique_content": [
+    {
+      "file_sha256": "13189f4e4412090e123c66eae108c1512d96669b30da2f195bdcd0f39c682767",
+      "reference_file": "cartoes_corporativos.csv",
+      "aliases": [
+        "cartoes_corporativos.csv"
+      ]
+    },
+    {
+      "file_sha256": "a3e3bd0f1a47aff4b2b57aa92afa95e3587ae03b96cc7c284642b62a36ee1230",
+      "reference_file": "centros_de_custo.xlsx",
+      "aliases": [
+        "centros_de_custo.xlsx"
+      ]
+    },
+    {
+      "file_sha256": "108d71f55884b8b5d768dcc5fa4290b1c1bf74ae3d4b8d8b98a9bb500a34ddcb",
+      "reference_file": "de_para_codigo_despesa.csv",
+      "aliases": [
+        "de_para_codigo_despesa.csv"
+      ]
+    },
+    {
+      "file_sha256": "dcb51ebfeedbd4b51fe0ffc148eb5988c85ecdde0acd65e3617c6039e7f6ce34",
+      "reference_file": "de_para_contabil_gerencial.csv",
+      "aliases": [
+        "de_para_contabil_gerencial.csv"
+      ]
+    },
+    {
+      "file_sha256": "56ac431953f88403945d1c679c0536fc9ce91eb30431231d7e0a7f5441892281",
+      "reference_file": "demonstrativo_mensal_uber.csv",
+      "aliases": [
+        "demonstrativo_mensal_uber.csv"
+      ]
+    },
+    {
+      "file_sha256": "4ec477922e4dd96810d7a2f7fba456480f4373f02b8c10548748b81514dd6777",
+      "reference_file": "departamentos.csv",
+      "aliases": [
+        "departamentos.csv"
+      ]
+    },
+    {
+      "file_sha256": "62212f4d4c2b678e534be4c51b149467c05978cef6d2d7e30418c61d05ec502d",
+      "reference_file": "extrato_itau_cc_2026-07_a_2026-09.csv",
+      "aliases": [
+        "extrato_itau_cc_2026-07_a_2026-09.csv"
+      ]
+    },
+    {
+      "file_sha256": "9b6fbe0b1272e3d3a4b942ab479650224dd7156bb39e5eb268d0ed357c8ca54f",
+      "reference_file": "fornecedores.xlsx",
+      "aliases": [
+        "fornecedores.xlsx"
+      ]
+    },
+    {
+      "file_sha256": "05d70494cabfe0eeea122b15259fa95985f78785e1eb6a67ed409daa45d5dc34",
+      "reference_file": "funcionarios.xlsx",
+      "aliases": [
+        "funcionarios.xlsx"
+      ]
+    },
+    {
+      "file_sha256": "4002b8c48d42f7ea205f07eb2ed6ddd7ae5d9b39bee49ad1e1936fbf2459edbd",
+      "reference_file": "plano_de_contas.csv",
+      "aliases": [
+        "plano_de_contas.csv"
+      ]
+    },
+    {
+      "file_sha256": "17e721fc2c65e2d3404c352f11b0e1188994e2a2a6d2b5a26a5928921ddb4247",
+      "reference_file": "plano_gerencial.csv",
+      "aliases": [
+        "plano_gerencial.csv"
+      ]
+    },
+    {
+      "file_sha256": "63fe11a8d0b9a2bc49ad9d69b08f34713a1a2766a4e10b09ff299a6848c3d692",
+      "reference_file": "uber_business_2026-07.csv",
+      "aliases": [
+        "uber_business_2026-07.csv"
+      ]
+    },
+    {
+      "file_sha256": "221487b98b48e691c49698c875754bf9c716e2c7e2339a8052011442b918b263",
+      "reference_file": "uber_business_2026-08.xlsx",
+      "aliases": [
+        "uber_business_2026-08.xlsx"
+      ]
+    },
+    {
+      "file_sha256": "305a20222a085961529ec754d863fe02055a44e839143e9b60fbf4eaec75a839",
+      "reference_file": "uber_business_2026-08_complemento_financeiro.csv",
+      "aliases": [
+        "uber_business_2026-08_complemento_financeiro.csv"
+      ]
+    },
+    {
+      "file_sha256": "d1cf2f542103f7f894759750e6c90f17d6af1b2426e6db76e97869bb05d4e159",
+      "reference_file": "usuarios_internos.csv",
+      "aliases": [
+        "usuarios_internos.csv"
+      ]
+    }
+  ]
+}

@@ -109,10 +109,19 @@ with cards as (
   left join managerial g on g.managerial_account=x.managerial_account
 ), final_classification as (
   select classified.*,
+         case
+              {% for rule in var('classification_review_rules', []) %}
+              when expense_code='{{ rule.expense_code }}'
+              {% if rule.cost_centers %}and official_cost_center in ('{{ rule.cost_centers | join("','") }}'){% endif %}
+              then true
+              {% endfor %}
+              else false end as cost_expense_review_required,
          case when linked_employee_number is null then 'not_assessable_employee_missing'
               when request_ts_local is null then 'not_assessable_ride_date_missing'
+              when nullif(admission_date_raw,'') is null then 'not_assessable_admission_date_missing'
               when nullif(admission_date_raw,'') is not null and try_strptime(admission_date_raw,'%d/%m/%Y') is null then 'not_assessable_admission_date_invalid'
               when nullif(termination_date_raw,'') is not null and try_strptime(termination_date_raw,'%d/%m/%Y') is null then 'not_assessable_termination_date_invalid'
+              when upper(trim(linked_employee_status)) is distinct from 'ATIVO' and nullif(termination_date_raw,'') is null then 'not_assessable_inactive_without_termination_date'
               when try_strptime(admission_date_raw,'%d/%m/%Y')::date > request_ts_local::date then 'before_admission'
               when try_strptime(termination_date_raw,'%d/%m/%Y')::date < request_ts_local::date then 'after_termination'
               else 'within_employment_period' end as employment_at_ride_status,
@@ -134,12 +143,15 @@ select *,
             when transaction_type='Admin Fee' then 'admin_fee_allocation_rule_pending'
             when amount_status <> 'known' then 'financial_amount_not_known'
             when email_link_status is distinct from 'linked' then coalesce(email_link_status,'email_or_requester_missing')
-            when linked_user_status is distinct from 'active' then coalesce(linked_user_status,'internal_user_not_active')
+            when linked_user_status='ambiguous_user_record' then 'ambiguous_user_record'
             when employee_link_status is distinct from 'linked' then coalesce(employee_link_status,'employee_not_linked')
+            when employment_at_ride_status is distinct from 'within_employment_period' then employment_at_ride_status
+            when payment_route_status='employee_reimbursement_candidate' and upper(trim(linked_employee_status)) is distinct from 'ATIVO' then 'former_employee_reimbursement_review'
             when official_cost_center_status is distinct from 'active' then coalesce(official_cost_center_status,'official_cost_center_unavailable')
             when employee_cpf_status is distinct from 'valid' and payment_route_status='employee_reimbursement_candidate' then coalesce(employee_cpf_status,'employee_cpf_unavailable')
             when local_month_boundary_ambiguous and payment_route_status='employee_reimbursement_candidate' then 'local_month_boundary_ambiguous'
             when payment_route_status like 'needs_client%' then payment_route_status
+            when cost_expense_review_required then 'cost_expense_classification_pending'
             when expense_code_mapping_status <> 'mapped' then expense_code_mapping_status
             when accounting_account_validation_status <> 'postable' then accounting_account_validation_status
             when official_crosswalk_validation_status <> 'mapped' then official_crosswalk_validation_status

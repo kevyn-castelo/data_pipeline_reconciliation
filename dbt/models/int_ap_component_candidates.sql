@@ -21,13 +21,14 @@ select e.*, i.integrity_issues,
        d.cpf_valid as beneficiary_cpf_valid,
        d.employee_name as beneficiary_employee_name,
        (e.amount_status='known' and e.amount_brl is not null) as amount_known,
-       (e.official_cost_center_status='active'
+       (not e.cost_expense_review_required and e.official_cost_center_status='active'
         and e.accounting_account_validation_status='postable'
         and e.official_crosswalk_validation_status='mapped'
         and e.managerial_account_validation_status='postable'
         and e.accounting_target_account is not null and e.official_managerial_account is not null
         and e.official_cost_center is not null) as allocation_dimensions_valid,
        list_filter([
+         case when e.cost_expense_review_required then 'cost_expense_classification_pending' end,
          case when array_length(i.integrity_issues)>0 then 'transaction_integrity_issue' end,
          case when e.is_quarantined then 'canonical_candidate_retained' end,
          case when e.stage3_financial_gate is distinct from 'candidate_for_stage3_review' then 'stage3_gate:' || coalesce(e.stage3_financial_gate,'missing') end,

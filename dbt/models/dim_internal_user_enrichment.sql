@@ -39,7 +39,6 @@ select u.user_id, u.display_name, u.user_record_count, u.user_status,
             when u.employee_number is null or trim(u.employee_number) = '' then 'missing_employee_number'
             when e.employee_number is null then 'employee_not_found'
             when e.employee_row_count > 1 then 'ambiguous_employee'
-            when upper(trim(e.employee_status)) <> 'ATIVO' then 'employee_inactive'
             else 'linked' end as employee_link_status,
        e.employee_name, e.employee_status, e.admission_date_raw, e.termination_date_raw,
        case when e.employee_row_count = 1 and e.cpf_value_count = 1 then e.cpf_valid end as employee_cpf_valid,

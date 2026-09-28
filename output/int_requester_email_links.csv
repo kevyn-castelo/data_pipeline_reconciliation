@@ -1,0 +1,2 @@
+﻿email_norm,email_link_status,user_id,candidate_user_count,candidate_user_ids,matched_by,user_status,user_status_check,employee_number,employee_link_status,employee_name,employee_status,admission_date_raw,termination_date_raw,employee_cpf_status,employee_cpf_valid,directory_cost_center,official_cost_center,official_cost_center_status,cost_center_name,directory_cost_center_mismatch
+helena.paranhos@madeiraparana.com.br,linked,U3171,1,"[""U3171""]",primary,ATIVO,active,1201,linked,Helena Paranhos,Ativo,02/03/2005,,valid,True,CC101,CC101,active,Diretoria,False

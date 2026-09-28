@@ -1,0 +1,77 @@
+﻿user_id,display_name,user_record_count,user_status,user_status_check,employee_number,employee_link_status,employee_name,employee_status,admission_date_raw,termination_date_raw,employee_cpf_valid,employee_cpf_status,official_cost_center,directory_cost_center,official_cost_center_status,cost_center_name,directory_cost_center_mismatch
+U2007,Mariana Lopes,1,SUSPENSO,inactive_or_suspended,1020,linked,Mariana Lopes,Ativo,01/08/2013,,True,valid,CC110,CC100,active,Financeiro,True
+U3101,Patricia Gomes,1,ATIVO,active,1001,linked,Patricia Gomes,Ativo,23/04/2023,,True,valid,CC210,CC210,active,Producao - Montagem,False
+U3102,Thiago Correia Filho,1,ATIVO,active,1002,linked,Thiago Correia Filho,Ativo,27/04/2012,,True,valid,CC410,CC410,active,Almoxarifado,False
+U3103,Aline Barbosa da Silva,1,ATIVO,active,1003,linked,Aline Barbosa da Silva,Ativo,02/05/2014,,True,valid,CC120,CC120,active,Recursos Humanos,False
+U3104,Rodrigo Pereira Filho,1,ATIVO,active,1004,linked,Rodrigo Pereira Filho,Ativo,03/07/2012,,True,valid,CC230,CC200,active,Producao - Estofaria,True
+U3105,Camila Rocha Neto,1,ATIVO,active,1005,linked,Camila Rocha Neto,Ativo,16/01/2016,,True,valid,CC410,CC410,active,Almoxarifado,False
+U3106,Vanessa Dias de Souza,1,ATIVO,active,1006,linked,Vanessa Dias de Souza,Ativo,01/06/2021,,True,valid,CC777,CC777,cost_center_not_found,,False
+U3107,Ricardo Lima Filho,1,ATIVO,active,1007,linked,Ricardo Lima Filho,Ativo,10/07/2022,,True,valid,CC210,CC210,active,Producao - Montagem,False
+U3108,Camila Rocha Neto,1,ATIVO,active,1008,linked,Camila Rocha Neto,Ativo,29/08/2019,,True,valid,CC310,CC310,active,Marketing,False
+U3109,Andre Fonseca Moraes,1,ATIVO,active,1009,linked,Andre Fonseca Moraes,Ativo,14/04/2017,,True,valid,CC100,CC100,active,Administracao,False
+U3110,Camila Rocha Filho,1,ATIVO,active,1010,linked,Camila Rocha Filho,Ativo,27/03/2025,,True,valid,CC200,CC200,active,Producao - Corte,False
+U3111,Marcos Tavares,1,ATIVO,active,1011,linked,Marcos Tavares,Ativo,29/04/2015,,True,valid,CC310,CC310,active,Marketing,False
+U3112,Marcos Tavares Neto,1,ATIVO,active,1012,linked,Marcos Tavares Neto,Ativo,19/09/2018,,True,valid,CC110,CC110,active,Financeiro,False
+U3113,Marcos Tavares Junior,1,ATIVO,active,1013,linked,Marcos Tavares Junior,Ativo,14/01/2025,,True,valid,CC200,CC200,active,Producao - Corte,False
+U3114,Andre Fonseca Neto,1,ATIVO,active,1014,linked,Andre Fonseca Neto,Ativo,09/05/2022,,True,valid,CC300,CC300,active,Comercial,False
+U3115,Leonardo Santos,1,ATIVO,active,1015,linked,Leonardo Santos,Ativo,04/01/2024,,True,valid,CC100,CC100,active,Administracao,False
+U3116,Diego Nascimento Neto,1,ATIVO,active,1016,linked,Diego Nascimento Neto,Ativo,24/05/2017,,True,valid,CC210,CC220,active,Producao - Montagem,True
+U3117,Beatriz Ferraz da Silva,1,ATIVO,active,1017,linked,Beatriz Ferraz da Silva,Ativo,23/05/2013,,True,valid,CC110,CC110,active,Financeiro,False
+U3118,Diego Nascimento Junior,1,ATIVO,active,1018,linked,Diego Nascimento Junior,Ativo,18/08/2019,,True,valid,CC410,CC410,active,Almoxarifado,False
+U3119,Tatiane Cardoso Neto,1,ATIVO,active,1019,linked,Tatiane Cardoso Neto,Ativo,03/11/2022,,True,valid,CC220,CC220,active,Producao - Acabamento,False
+U3120,Mariana Lopes,1,ATIVO,active,1020,linked,Mariana Lopes,Ativo,01/08/2013,,True,valid,CC110,CC110,active,Financeiro,False
+U3121,Thiago Correia da Silva,1,ATIVO,active,1021,linked,Thiago Correia da Silva,Ativo,19/12/2014,,True,valid,CC300,CC300,active,Comercial,False
+U3122,Felipe Araujo de Souza,1,ATIVO,active,1022,linked,Felipe Araujo de Souza,Ativo,06/01/2014,,True,valid,CC200,CC200,active,Producao - Corte,False
+U3123,Larissa Teixeira Filho,1,ATIVO,active,1023,linked,Larissa Teixeira Filho,Ativo,18/05/2014,,True,valid,CC310,CC310,active,Marketing,False
+U3124,Fabio Antunes de Souza,1,ATIVO,active,1024,linked,Fabio Antunes de Souza,Ativo,23/05/2013,,True,valid,CC120,CC120,active,Recursos Humanos,False
+U3125,Diego Nascimento,1,ATIVO,active,1025,linked,Diego Nascimento,Ativo,06/02/2016,,True,valid,CC210,CC210,active,Producao - Montagem,False
+U3126,Henrique Duarte Junior,1,ATIVO,active,1026,linked,Henrique Duarte Junior,Ativo,18/03/2012,,True,valid,CC310,CC310,active,Marketing,False
+U3127,Eduardo Batista Moraes,1,ATIVO,active,1027,linked,Eduardo Batista Moraes,Ativo,12/02/2013,,True,valid,CC310,CC310,active,Marketing,False
+U3128,Camila Rocha de Souza,1,ATIVO,active,1028,linked,Camila Rocha de Souza,Ativo,16/06/2020,,True,valid,CC220,CC210,active,Producao - Acabamento,True
+U3129,Bruno Carvalho,1,ATIVO,active,1029,linked,Bruno Carvalho,Ativo,22/08/2017,,True,valid,CC111,CC111,active,Contabilidade,False
+U3130,Eduardo Batista da Silva,1,ATIVO,active,1030,linked,Eduardo Batista da Silva,Ativo,06/04/2015,,True,valid,CC100,CC100,active,Administracao,False
+U3131,Andre Fonseca de Souza,1,ATIVO,active,1031,linked,Andre Fonseca de Souza,Ativo,07/05/2022,,True,valid,CC230,CC230,active,Producao - Estofaria,False
+U3132,Priscila Moraes Junior,1,ATIVO,active,1032,linked,Priscila Moraes Junior,Ativo,03/06/2013,,True,valid,CC100,CC100,active,Administracao,False
+U3133,Felipe Araujo Junior,1,SUSPENSO,inactive_or_suspended,1033,linked,Felipe Araujo Junior,Desligado,14/01/2024,15/07/2026,True,valid,CC400,CC400,active,Logistica e Expedicao,False
+U3134,Rafael Oliveira Neto,1,ATIVO,active,1034,linked,Rafael Oliveira Neto,Ativo,12/06/2019,,True,valid,CC200,CC200,active,Producao - Corte,False
+U3135,Diego Nascimento de Souza,1,ATIVO,active,1035,linked,Diego Nascimento de Souza,Ativo,13/03/2023,,True,valid,CC300,CC300,active,Comercial,False
+U3136,Andre Fonseca Moraes,1,ATIVO,active,1036,linked,Andre Fonseca Moraes,Ativo,01/12/2019,,True,valid,CC300,CC300,active,Comercial,False
+U3137,Vanessa Dias de Souza,1,ATIVO,active,1037,linked,Vanessa Dias de Souza,Ativo,15/11/2022,,True,valid,CC220,CC220,active,Producao - Acabamento,False
+U3138,Gustavo Moreira da Silva,1,ATIVO,active,1038,linked,Gustavo Moreira da Silva,Ativo,03/06/2013,,True,valid,CC120,CC120,active,Recursos Humanos,False
+U3139,Andre Fonseca Neto,1,ATIVO,active,1039,linked,Andre Fonseca Neto,Ativo,15/04/2022,,True,valid,CC120,CC120,active,Recursos Humanos,False
+U3140,Andre Fonseca Junior,1,ATIVO,active,1040,linked,Andre Fonseca Junior,Ativo,21/11/2012,,True,valid,CC250,CC250,cost_center_inactive,Producao - Pintura (desativado),False
+U3141,Natalia Vieira Junior,1,ATIVO,active,1041,linked,Natalia Vieira Junior,Ativo,27/03/2013,,True,valid,CC110,CC110,active,Financeiro,False
+U3142,Thiago Correia da Silva,1,ATIVO,active,1042,linked,Thiago Correia da Silva,Ativo,12/07/2021,,True,valid,CC100,CC100,active,Administracao,False
+U3143,Felipe Araujo Junior,1,ATIVO,active,1043,linked,Felipe Araujo Junior,Ativo,20/05/2020,,True,valid,CC220,CC400,active,Producao - Acabamento,True
+U3144,Bianca Azevedo da Silva,1,ATIVO,active,1044,linked,Bianca Azevedo da Silva,Ativo,07/11/2022,,True,valid,CC100,CC100,active,Administracao,False
+U3145,Diego Nascimento da Silva,1,ATIVO,active,1045,linked,Diego Nascimento da Silva,Ativo,23/05/2020,,True,valid,CC110,CC110,active,Financeiro,False
+U3146,Carlos Eduardo Souza Neto,1,ATIVO,active,1046,linked,Carlos Eduardo Souza Neto,Ativo,06/10/2019,,True,valid,CC210,CC210,active,Producao - Montagem,False
+U3147,Marcos Tavares de Souza,1,ATIVO,active,1047,linked,Marcos Tavares de Souza,Ativo,10/10/2023,,True,valid,CC110,CC110,active,Financeiro,False
+U3148,Beatriz Ferraz Filho,1,ATIVO,active,1048,linked,Beatriz Ferraz Filho,Ativo,25/04/2018,,True,valid,CC410,CC410,active,Almoxarifado,False
+U3149,Carlos Eduardo Souza Junior,1,ATIVO,active,1049,linked,Carlos Eduardo Souza Junior,Ativo,29/10/2017,,True,valid,CC210,CC210,active,Producao - Montagem,False
+U3150,Gustavo Moreira da Silva,1,ATIVO,active,1050,linked,Gustavo Moreira da Silva,Ativo,14/03/2018,,True,valid,CC100,CC310,active,Administracao,True
+U3151,Marcos Tavares Junior,1,ATIVO,active,1051,linked,Marcos Tavares Junior,Ativo,15/11/2021,,True,valid,CC310,CC310,active,Marketing,False
+U3152,Rafael Oliveira da Silva,1,ATIVO,active,1052,linked,Rafael Oliveira da Silva,Ativo,19/12/2013,,True,valid,CC200,CC200,active,Producao - Corte,False
+U3153,Mariana Lopes da Silva,1,ATIVO,active,1053,linked,Mariana Lopes da Silva,Ativo,18/08/2015,,False,invalid,CC310,CC310,active,Marketing,False
+U3154,Sabrina Cunha,1,ATIVO,active,1054,linked,Sabrina Cunha,Ativo,05/01/2014,,True,valid,CC100,CC100,active,Administracao,False
+U3155,Juliana Martins de Souza,1,ATIVO,active,1055,linked,Juliana Martins de Souza,Ativo,15/08/2014,,True,valid,CC220,CC220,active,Producao - Acabamento,False
+U3156,Leonardo Santos,1,ATIVO,active,1056,linked,Leonardo Santos,Ativo,28/05/2024,,True,valid,CC310,CC310,active,Marketing,False
+U3157,Juliana Martins,1,ATIVO,active,1057,linked,Juliana Martins,Ativo,14/11/2013,,True,valid,CC310,CC310,active,Marketing,False
+U3158,Daniela Freitas Filho,1,ATIVO,active,1058,linked,Daniela Freitas Filho,Ativo,22/08/2014,,True,valid,CC230,CC230,active,Producao - Estofaria,False
+U3159,Priscila Moraes Moraes,1,ATIVO,active,1059,linked,Priscila Moraes Moraes,Ativo,25/08/2014,,True,valid,CC100,CC100,active,Administracao,False
+U3160,Isabela Camargo Moraes,1,ATIVO,active,1060,linked,Isabela Camargo Moraes,Ativo,05/05/2012,,True,valid,CC110,CC110,active,Financeiro,False
+U3161,Mariana Lopes Junior,1,ATIVO,active,1061,linked,Mariana Lopes Junior,Ativo,13/01/2021,,True,valid,CC200,CC200,active,Producao - Corte,False
+U3162,Eduardo Batista,1,SUSPENSO,inactive_or_suspended,1062,linked,Eduardo Batista,Desligado,27/04/2013,30/06/2026,True,valid,CC120,CC120,active,Recursos Humanos,False
+U3163,Fabio Antunes da Silva,1,ATIVO,active,1063,linked,Fabio Antunes da Silva,Ativo,25/02/2025,,True,valid,CC120,CC120,active,Recursos Humanos,False
+U3164,Ana Paula Ribeiro Junior,1,ATIVO,active,1064,linked,Ana Paula Ribeiro Junior,Ativo,18/03/2015,,True,valid,CC200,CC200,active,Producao - Corte,False
+U3165,Andre Fonseca da Silva,1,ATIVO,active,1065,linked,Andre Fonseca da Silva,Ativo,03/03/2014,,True,valid,CC300,CC300,active,Comercial,False
+U3166,Andre Fonseca Filho,1,ATIVO,active,1066,linked,Andre Fonseca Filho,Ativo,16/01/2024,,True,valid,CC300,CC300,active,Comercial,False
+U3167,Diego Nascimento Junior,1,ATIVO,active,1067,linked,Diego Nascimento Junior,Ativo,27/09/2017,,True,valid,CC200,CC200,active,Producao - Corte,False
+U3168,Bruno Carvalho Filho,1,ATIVO,active,1068,linked,Bruno Carvalho Filho,Ativo,06/08/2020,,True,valid,CC310,CC310,active,Marketing,False
+U3169,Daniela Freitas,1,ATIVO,active,1069,linked,Daniela Freitas,Ativo,10/10/2012,,True,valid,CC120,CC120,active,Recursos Humanos,False
+U3170,Fabio Antunes,1,ATIVO,active,1070,linked,Fabio Antunes,Ativo,27/05/2025,,True,valid,CC210,CC210,active,Producao - Montagem,False
+U3171,Helena Paranhos,1,ATIVO,active,1201,linked,Helena Paranhos,Ativo,02/03/2005,,True,valid,CC101,CC101,active,Diretoria,False
+U3172,Rogerio Paranhos,1,ATIVO,active,1202,linked,Rogerio Paranhos,Ativo,02/03/2005,,True,valid,CC101,CC101,active,Diretoria,False
+U9001,Integracao Financeiro (conta de servico),1,ATIVO,active,,missing_employee_number,,,,,,,,CC110,employee_not_found,,
+U9002,TI Suporte (conta de servico),1,ATIVO,active,,missing_employee_number,,,,,,,,,employee_not_found,,False
+U9003,Consultoria Externa - Joao Prestes,1,SUSPENSO,inactive_or_suspended,,missing_employee_number,,,,,,,,,employee_not_found,,False

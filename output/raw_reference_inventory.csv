@@ -1,0 +1,11 @@
+﻿entity_name,source_present,source_count,record_count
+accounting_accounts,True,1,73
+accounting_managerial_map,True,1,32
+corporate_cards,True,1,3
+cost_centers,True,1,15
+employees,True,1,72
+expense_code_map,True,1,8
+internal_users,True,1,76
+managerial_accounts,True,1,15
+statements,True,1,2
+vendors,True,1,43

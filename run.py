@@ -8,7 +8,6 @@ import re
 import shutil
 import subprocess
 import sys
-import tempfile
 import uuid
 import zipfile
 from datetime import date, datetime, time
@@ -151,9 +150,12 @@ def digest(p):
 
 def code_digest():
     """Hash the executable rules and configuration, including file names and bytes."""
-    paths = [ROOT / "run.py", ROOT / "requirements.txt", ROOT / "config/client.json"]
-    paths.extend(sorted((ROOT / "dbt").rglob("*.sql")))
-    paths.extend(sorted((ROOT / "dbt").rglob("*.yml")))
+    paths = [ROOT / "run.py", ROOT / "bank_reconciliation.py", ROOT / "requirements.txt", ROOT / "config/client.json", ROOT / "config/reconciliation.json"]
+    # Only versioned rules: dbt's telemetry id (.user.yml, a per-machine UUID) and artifacts of manual
+    # dbt runs (target/, logs/, dbt_packages/) would make the hash differ for identical code.
+    generated = {"target", "logs", "dbt_packages"}
+    paths.extend(sorted(p for pattern in ("*.sql", "*.yml") for p in (ROOT / "dbt").rglob(pattern)
+                        if not p.name.startswith(".") and not generated & set(p.relative_to(ROOT / "dbt").parts)))
     h = hashlib.sha256()
     for path in paths:
         h.update(path.relative_to(ROOT).as_posix().encode("utf-8"))
@@ -644,6 +646,8 @@ def main():
                     help="Data de corte YYYY-MM-DD para bloquear títulos vencidos; informe explicitamente em reruns auditáveis")
     ap.add_argument("--first-competence", default=CONFIG.get("first_automated_competence"),
                     help="Primeira competência YYYY-MM permitida para automação")
+    ap.add_argument("--keep-failed-build", action="store_true",
+                    help="Preserva a pasta temporária de um build com falha, para diagnóstico")
     args = ap.parse_args()
     if not args.first_competence or not re.fullmatch(r"\d{4}-(0[1-9]|1[0-2])", args.first_competence):
         raise SystemExit("Primeira competência automatizada deve ser YYYY-MM válido.")
@@ -660,7 +664,26 @@ def main():
     if not args.issued_ledger.is_file():
         raise SystemExit(f"Livro de títulos emitidos não encontrado: {args.issued_ledger}")
     target_out.parent.mkdir(parents=True, exist_ok=True)
-    out = Path(tempfile.mkdtemp(prefix=f".{target_out.name}.build-", dir=target_out.parent))
+    # A plain sibling folder inherits the parent's permissions. tempfile.mkdtemp restricts access to the
+    # owner on Windows (Python >= 3.13), and the restriction would survive the rename into the output.
+    out = target_out.with_name(f".{target_out.name}.build-{uuid.uuid4().hex[:12]}")
+    out.mkdir()
+    try:
+        build_output(args, out)
+        publish_output(out, target_out)
+    except BaseException:
+        if not out.exists():
+            raise  # already published; the failure happened while removing the previous output
+        if args.keep_failed_build:
+            print(f"Build com falha preservado para diagnóstico: {out}", file=sys.stderr)
+        else:
+            shutil.rmtree(out, ignore_errors=True)
+            print("Build com falha; pasta temporária removida (use --keep-failed-build para preservá-la). "
+                  "A saída publicada anterior não foi alterada.", file=sys.stderr)
+        raise
+
+
+def build_output(args, out):
     (out / ".uber_pipeline_output").write_text("Pasta gerada por run.py.\n", encoding="utf-8")
     db = out / "canonical.duckdb"
     con = duckdb.connect(str(db))
@@ -678,6 +701,7 @@ def main():
     formats = sorted({fmt for c in configs for fmt in c.get("date_formats", {}).values()})
     dbt_vars = json.dumps({"date_formats": formats, "client_id": CONFIG["client_id"],
                            "corporate_card_routes": CONFIG.get("corporate_card_routes", {}),
+                           "classification_review_rules": CONFIG.get("classification_review_rules", []),
                            "reimbursement_issue_date_rule": CONFIG.get("reimbursement_issue_date_rule"),
                            "first_automated_competence": args.first_competence,
                            "as_of_date": args.as_of_date.isoformat()})
@@ -696,14 +720,23 @@ def main():
             "code_sha256": code_digest(),
             "input_manifest_sha256": digest(out / "input_manifest.json"),
             "issued_ledger_sha256": digest(args.issued_ledger),
+            "resolutions_sha256": digest(args.resolutions),
+            "python_version": sys.version.split()[0],
             "as_of_date": args.as_of_date.isoformat(),
             "first_automated_competence": args.first_competence,
         }, indent=2), encoding="utf-8")
     finally:
         con.close()
+
+
+def publish_output(out, target_out):
     backup = target_out.with_name(f".{target_out.name}.previous-{uuid.uuid4().hex}")
     if target_out.exists():
-        target_out.replace(backup)
+        try:
+            target_out.replace(backup)
+        except PermissionError as exc:
+            raise RuntimeError(f"Não foi possível substituir {target_out}: feche os arquivos abertos nessa pasta "
+                               "(Excel, DuckDB) e execute de novo.") from exc
     try:
         out.replace(target_out)
     except Exception:
@@ -777,6 +810,12 @@ def write_controller_summary(con, out, args):
     lines.append("- Rotas fora do faturamento desta integração permanecem visíveis: AMEX corporativo é excluído para processo próprio; VISA 0042 está pendente de decisão. Os subtotais dessas rotas não são contas a pagar liberadas.")
     lines.extend(["", "## Qualidade e pendências"])
     lines.append("- DQ por bucket (registros de issue, podem haver vários por candidato): " + (", ".join(f"{bucket}={count}" for bucket, count in dq) or "sem ocorrências") + ". Consulte `dq_report.csv` para localizadores e lineage.")
+    for code, count, amount in rows("select expense_code,count(*),sum(amount_brl) from int_ap_component_candidates where cost_expense_review_required group by 1 order by 1"):
+        lines.append(f"- Custo × Despesa pendente: {code}, {count} componentes / {fmt(amount)}. A pendência bloqueia o título e o rateio até decisão da controladoria.")
+    for status, count, amount in rows("select employment_at_ride_status,count(*),sum(amount_brl) from int_transaction_enrichment where employment_at_ride_status in ('after_termination','before_admission') group by 1 order by 1"):
+        lines.append(f"- RH: {status}, {count} componentes / {fmt(amount)}. Corridas fora da vigência requerem revisão; status corrente inativo não bloqueia por si só corridas históricas faturadas à empresa.")
+    for code, count in rows("select issue_code,count(*) from dq_enrichment_issues where issue_code like 'mobility_%' group by 1 order by 1"):
+        lines.append(f"- Compliance: {code}, {count} alertas para RH/gestor. A política não reduz o valor devido à Uber.")
     lines.append("- Decisões para liberar AP:")
     if blocker_counts.get('issue_date_missing') or blocker_counts.get('issue_date_missing_or_invalid_in_source'):
         lines.append("  - Informar a regra/fonte autorizada para `data_emissao` das faturas; o demonstrativo fornece apenas `data_disponibilizacao`. Podemos usá-la como emissão? Até a resposta, não foi tratada como emissão.")
@@ -805,8 +844,46 @@ def write_controller_summary(con, out, args):
         lines.append(f"- Confirmar as ligações de email Uber pendentes: {link_status.get('ambiguous',0)} ambiguidades e {link_status.get('not_found',0)} não encontrados; não escolher usuário por nome/Employee ID.")
     if vendor_name_duplicates:
         lines.append("- Cadastro: há duplicidade nominal de fornecedores Uber. As faturas atuais foram ligadas pelo CNPJ do demonstrativo a um registro único; confirmar/limpar o cadastro para evitar ambiguidade futura.")
-    lines.extend(["", "Os números por rota e centro de custo estão em `int_monthly_cost_center_payment_summary.csv`; cada linha informa o mês analítico e sua base, atribuição, rota, contagem e estado monetário. AMEX e VISA corporativos continuam separados das contas a pagar desta integração. A conciliação bancária é executada separadamente por `bank_reconciliation.py` e não efetua baixa no ERP.", ""])
+    from bank_reconciliation import discover_bank_files, bank_entries, candidates, reconcile
+    bank_files=discover_bank_files(args.input)
+    lines.extend(['', '## Evidência bancária'])
+    if len(bank_files)==1:
+        bank_titles, bank_cards=candidates(out / 'canonical.duckdb')
+        bank_titles, card_matches, _=reconcile(bank_titles, bank_cards, bank_entries(bank_files[0]))
+        lines.append(f"Fonte: {bank_files[0].name}. Pagamento no extrato não comprova baixa no ERP. Bloqueios de importação não excluem a pesquisa bancária.")
+        for t in bank_titles:
+            if t['duplicate_cents']:
+                lines.append(f"- {t['name']} / {t['competence']}: título {fmt(Decimal(t['cents'])/100)}, pagamento principal {fmt(Decimal(t['paid_cents'])/100)} e duplicidade {fmt(Decimal(t['duplicate_cents'])/100)}; verificar restituição/compensação.")
+            elif t['paid_cents'] is None:
+                lines.append(f"- {t['name']} / {t['competence']}: {t['status']}, título {fmt(Decimal(t['cents'])/100) if t['cents'] is not None else 'indeterminado'}; conferir ERP/comprovante antes de ação financeira.")
+            elif t['kind']=='FATURA_FORNECEDOR' or t['difference_cents']:
+                lines.append(f"- {t['name']} / {t['competence']}: documento {fmt(Decimal(t['cents'])/100)}, débito principal {fmt(Decimal(t['paid_cents'])/100)}, diferença {fmt(Decimal(t['difference_cents'])/100)}; composição/classificação de diferenças depende de evidência.")
+        reimbursements=[t for t in bank_titles if t['kind']=='REEMBOLSO_COLABORADOR']
+        lines.append(f"- Reembolsos: {sum(t['paid_cents'] is not None for t in reimbursements)} títulos com pagamento associado; principal {fmt(sum(Decimal(t['paid_cents'] or 0) for t in reimbursements)/100)}, duplicidades {fmt(sum(Decimal(t['duplicate_cents']) for t in reimbursements)/100)}.")
+        lines.append(f"- Débitos de cartão associados: {len(card_matches)}, {fmt(sum(Decimal(m['value']) for m in card_matches))}; classificação contábil ainda pendente.")
+    else:
+        lines.append('Não há um único extrato identificado na entrada; executar a conciliação separadamente com a fonte selecionada.')
+    lines.extend(["", "Os números por rota e centro de custo estão em `int_monthly_cost_center_payment_summary.csv`. Os arquivos detalhados da conciliação são gerados por `bank_reconciliation.py` em `reconciliation/`, com movimentos únicos e valores atribuídos por título. Nenhuma baixa no ERP é executada.", ""])
     (out / "controller_summary.md").write_text("\n".join(lines), encoding="utf-8")
+    (out / 'README.md').write_text('''# Entregáveis gerados
+
+Os CSVs, os manifestos JSON e os documentos desta pasta são versionados. O banco DuckDB, cópias dbt, logs e testes permanecem locais.
+
+| Entregável | Arquivo |
+|---|---|
+| Transações normalizadas | stg_uber_transactions.csv |
+| Candidatos canônicos, resolvidos e conflitos | int_transactions.csv, int_transactions_resolved.csv, int_transaction_conflicts.csv |
+| Vínculo por e-mail | int_uber_email_links.csv |
+| Resumo mensal por CC e rota | int_monthly_cost_center_payment_summary.csv |
+| Imports Alchemy | ap_titulos.csv, ap_rateios.csv |
+| Retenções e linhagem | ap_titulos_candidatos.csv, ap_rateios_candidatos.csv, ap_rateios_linhagem.csv |
+| Qualidade e normalizações | dq_report.csv, dq_normalization_events.csv |
+| Resumo financeiro | controller_summary.md |
+| Proveniência | input_manifest.json, run_summary.json |
+
+Os imports podem conter apenas cabeçalhos: consultar os bloqueios dos candidatos. Valores conhecidos não substituem valores ausentes ou disputados.
+Conciliação bancária: ../reconciliation/README.md. Análise e arquitetura: ../docs/analise_senior_pipeline.md. Execução: ../RUNNING.md.
+''',encoding='utf-8')
 
 
 if __name__ == "__main__":

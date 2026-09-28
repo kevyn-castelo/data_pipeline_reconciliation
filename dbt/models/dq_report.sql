@@ -90,6 +90,6 @@ select * exclude (dq_bucket),
             else 'Dados/Financeiro' end as issue_owner,
        case when blocks_stage3 then 'open_blocking' when dq_bucket='auto_fixable' then 'corrected'
             else 'open_informational' end as issue_status,
-       case when issue_code like 'email_link_%' or issue_code in ('local_competence_missing','local_month_boundary_ambiguous')
+       case when issue_code like 'email_link_%' or issue_code in ('cost_expense_classification_pending', 'stage3_gate:cost_expense_classification_pending', 'former_employee_reimbursement_review', 'stage3_gate:former_employee_reimbursement_review', 'local_competence_missing','local_month_boundary_ambiguous')
             then 'needs_client' else dq_bucket end as dq_bucket
 from combined

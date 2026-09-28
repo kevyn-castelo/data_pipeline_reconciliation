@@ -30,14 +30,14 @@ where (lower(coalesce(program,'')) like '%uber central%' and (requester_email is
 union all
 select transaction_id, business_key, occurrence_ids, amount_brl,
        'internal_user_not_active' as issue_code, 'rule_based' as dq_bucket,
-       'Directory user is inactive, suspended, or has duplicate user records; matched address alone is not payment eligibility.' as issue_detail,
-       true as blocks_stage3
+       'Current directory status is informational for historical expenses; duplicate user records still block identity.' as issue_detail,
+       linked_user_status='ambiguous_user_record' as blocks_stage3
 from {{ ref('int_transaction_enrichment') }} where linked_user_status is distinct from 'active' and linked_user_id is not null
 
 union all
 select transaction_id, business_key, occurrence_ids, amount_brl,
        'employee_link_' || coalesce(employee_link_status, 'missing') as issue_code, 'rule_based' as dq_bucket,
-       'Unique directory identity does not resolve to one active HR employee by matrícula.' as issue_detail,
+       'Directory identity does not resolve to one unique HR employee by matrícula.' as issue_detail,
        true as blocks_stage3
 from {{ ref('int_transaction_enrichment') }} where employee_link_status is distinct from 'linked' and linked_user_id is not null
 
@@ -130,7 +130,22 @@ select transaction_id, business_key, occurrence_ids, amount_brl,
        'Ride date lies outside the employee admission/termination interval; HR must review access and historical status.' as issue_detail,
        true as blocks_stage3
 from {{ ref('int_transaction_enrichment') }}
-where employment_at_ride_status in ('after_termination','before_admission')
+where employment_at_ride_status <> 'within_employment_period'
+
+union all
+select transaction_id, business_key, occurrence_ids, amount_brl,
+       'cost_expense_classification_pending', 'needs_client',
+       'Configured accounting review is pending for this expense/CC; no Custo or Despesa classification was inferred.', true
+from {{ ref('int_transaction_enrichment') }} where cost_expense_review_required
+
+union all
+select transaction_id, business_key, occurrence_ids, amount_brl,
+       'former_employee_reimbursement_review', 'needs_client',
+       'Ride was within employment, but paying a former employee requires Finance review; the company-billed expense is not blocked by current inactive status.', true
+from {{ ref('int_transaction_enrichment') }}
+where payment_route_status='employee_reimbursement_candidate'
+  and employment_at_ride_status='within_employment_period'
+  and upper(trim(linked_employee_status)) is distinct from 'ATIVO'
 
 union all
 select transaction_id, business_key, occurrence_ids, amount_brl,

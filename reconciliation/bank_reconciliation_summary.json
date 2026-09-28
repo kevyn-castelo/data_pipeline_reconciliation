@@ -1,13 +1,25 @@
 {
+  "schema_version": 2,
   "bank_file_sha256": "62212f4d4c2b678e534be4c51b149467c05978cef6d2d7e30418c61d05ec502d",
-  "reconciliation_code_sha256": "de74b394d967c323870c7c6a733d4aa5caf36b435fc696dfbf6cf38a5a175748",
-  "pipeline_code_sha256": "fe3db87953326fa6e26cd46f5c27de90173a42835cc0bc610f2f20a48bd19148",
+  "reconciliation_code_sha256": "8ffa5e95dbc675895f3c28c7b62bdf64913ea94a274bc8ee8450ea9ebebbb2da",
+  "rules_sha256": "bdb7bb31886bc08bb02a3d392325c1897a858b35df7f8cd59c8da08328463b7e",
+  "pipeline_code_sha256": "c47e3f51ee4a5d34fba19e15f6f5c3c9a7fb56a9a8637caa4a548f5e525e7e41",
+  "pipeline_run_summary_sha256": "972e4329b479f942d63da7869ac4398a2fc8266bbc52e4b4c59bde4944a5e2fb",
+  "statement_end": "2026-09-20",
+  "statement_end_basis": "statement_header",
+  "last_movement_date": "2026-09-18",
   "title_status_counts": {
-    "held_unpayable": 2,
+    "matched_aggregate": 2,
+    "matched_exact": 12,
+    "matched_with_difference": 2,
+    "open_as_of_statement_end": 3,
+    "paid_more_than_once": 1
+  },
+  "primary_status_counts": {
     "matched_aggregate": 2,
     "matched_exact": 13,
     "matched_with_difference": 2,
-    "open_as_of_statement_end": 1
+    "open_as_of_statement_end": 3
   },
   "unmatched_debit_counts": {
     "duplicate_payment": 1,
@@ -16,5 +28,8 @@
   "paid_more_than_once_title_count": 1,
   "visa_route_match_count": 1,
   "bank_movement_count": 86,
-  "note": "Evidência de extrato; confirmações de ERP, encargos e classificação ainda requeridas."
+  "reimbursement_title_total": "1608.75",
+  "reimbursement_primary_payments": "1217.03",
+  "reimbursement_duplicate_payments": "73.78",
+  "note": "Valor vazio: sem pagamento associado ou não avaliável. Diferença zero: pagamento principal fecha o título. Sem baixa automática no ERP."
 }

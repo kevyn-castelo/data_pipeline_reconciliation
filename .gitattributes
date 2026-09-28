@@ -8,5 +8,6 @@ data/** -text
 config/*.csv -text
 dbt/seeds/*.csv -text
 reconciliation/** -text
+output/** -text
 *.xlsx binary
 *.duckdb binary

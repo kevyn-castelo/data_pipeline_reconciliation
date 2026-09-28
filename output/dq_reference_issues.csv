@@ -1,0 +1,8 @@
+﻿entity_name,source_file,source_sheet,source_row,issue_code,dq_bucket,issue_detail,blocks_stage3
+compliance_reference,,,,holiday_calendar_not_supplied,needs_client,No client holiday calendar was supplied. Weekend checks ran; holiday checks were not inferred.,False
+employees,funcionarios.xlsx,Funcionarios,54,invalid_cpf,rule_based,CPF fails length/repeated-digit/check-digit validation; reimbursement beneficiary must be held.,True
+vendors,fornecedores.xlsx,Sheet,40,invalid_cnpj,rule_based,CNPJ fails length/repeated-digit/check-digit validation; do not use this vendor record for import.,True
+vendors,fornecedores.xlsx,Sheet,41,invalid_cnpj,rule_based,CNPJ fails length/repeated-digit/check-digit validation; do not use this vendor record for import.,True
+vendors,fornecedores.xlsx,Sheet,43,uber_vendor_name_multiple_candidates,needs_client,Multiple vendor records match Uber legal name; confirm the intended supplier and valid CNPJ before payable creation.,True
+vendors,fornecedores.xlsx,Sheet,44,invalid_cnpj,rule_based,CNPJ fails length/repeated-digit/check-digit validation; do not use this vendor record for import.,True
+vendors,fornecedores.xlsx,Sheet,44,uber_vendor_name_multiple_candidates,needs_client,Multiple vendor records match Uber legal name; confirm the intended supplier and valid CNPJ before payable creation.,True

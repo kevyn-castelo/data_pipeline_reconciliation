@@ -1,7 +1,19 @@
 .venv/
-output/
+# Entregáveis textuais de output/ são versionados; artefatos de execução não.
+/output/*
+!/output/*.csv
+!/output/*.json
+!/output/*.md
+!/output/.uber_pipeline_output
+/profiling/output/
+/.test_build.log
+/.output.build-*/
+/.output.previous-*/
+/output_backup_validation/
+/.test_synthetic.log
 __pycache__/
 .pytest_cache/
+.test_output/
 
 # Documentos internos de trabalho e revisão: mantidos localmente, fora do repositório público
 docs/prompt_analytics_engineer.md

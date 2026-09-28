@@ -5,6 +5,7 @@ import csv
 from decimal import Decimal
 import hashlib
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -16,7 +17,8 @@ import openpyxl
 from run import CANONICAL_FIELDS, ROOT
 
 
-TEST_ROOT = ROOT / "output" / "synthetic"
+# Outside the published output/: test artifacts must never block or pollute a real publication.
+TEST_ROOT = ROOT / ".test_output" / "synthetic"
 TEST_MARKER = TEST_ROOT / ".synthetic-owned"
 HEADER_BY_FIELD = {field: aliases[0] for field, aliases in CANONICAL_FIELDS.items()}
 HEADERS = list(HEADER_BY_FIELD.values())
@@ -62,9 +64,9 @@ def write_csv(folder: Path, name: str, rows, reverse=False):
 
 def call_pipeline(input_dir: Path, output_dir: Path, resolutions: Path | None = None,
                   expect_ok=True, as_of_date="2026-01-01", first_competence="2026-01",
-                  issued_ledger: Path | None = None):
+                  issued_ledger: Path | None = None, extra_args=()):
     cmd = [sys.executable, str(ROOT / "run.py"), "--input", str(input_dir), "--output", str(output_dir),
-           "--as-of-date", as_of_date, "--first-competence", first_competence]
+           "--as-of-date", as_of_date, "--first-competence", first_competence, *extra_args]
     if resolutions:
         cmd += ["--resolutions", str(resolutions)]
     if issued_ledger:
@@ -213,6 +215,10 @@ def check_stage3_synthetic(folder: Path):
     payable_hashes = (file_hash(valid_output / "ap_titulos.csv"), file_hash(valid_output / "ap_rateios.csv"))
     call_pipeline(valid_input, valid_output)
     assert payable_hashes == (file_hash(valid_output / "ap_titulos.csv"), file_hash(valid_output / "ap_rateios.csv"))
+    if os.name == "nt":
+        # The published output inherits the parent's permissions instead of an owner-only ACL.
+        acl = subprocess.run(["icacls", str(valid_output)], capture_output=True, text=True, errors="replace").stdout
+        assert "(I)" in acl, acl
 
     # A failed build must preserve the previously published imports byte-for-byte.
     unknown_input = folder / "unknown" / "input"
@@ -221,6 +227,7 @@ def check_stage3_synthetic(folder: Path):
     failed = call_pipeline(unknown_input, valid_output, expect_ok=False)
     assert "unrecognized.csv" in failed.stderr and "RuntimeError" in failed.stderr
     assert payable_hashes == (file_hash(valid_output / "ap_titulos.csv"), file_hash(valid_output / "ap_rateios.csv"))
+    assert not list(folder.glob(".valid_output.build-*")), "a failed build must not leave its temporary folder"
 
     cutover_output = folder / "cutover_output"
     call_pipeline(valid_input, cutover_output, as_of_date="2026-09-28", first_competence="2026-09")
@@ -239,6 +246,29 @@ def check_stage3_synthetic(folder: Path):
                      "select adjustment_status from ap_ajustes_candidatos") == [("no_change",)]
 
     # Re-sent statement with different bytes but equal content: same ids, same releases, no double counting.
+    historical_input = make_stage3_fixture(folder / 'historical_hr', with_cards=True)
+    write_aux_xlsx(historical_input / 'funcionarios.xlsx',
+                   ['matricula','nome','cpf','departamento','centro_de_custo','cargo','data_admissao','situacao','data_desligamento'],
+                   [['0001','Alice Example','52998224725','D01','CC001','Analista','01/01/2020','Desligado','05/08/2026']], sheet='Funcionarios')
+    write_aux_csv(historical_input / 'usuarios_internos.csv',
+                  ['id_usuario','nome_exibicao','email_principal','emails_alternativos','matricula','centro_custo','status'],
+                  [['U001','Alice Example','alice@corp.example','','0001','CC001','INATIVO']])
+    historical_output = folder / 'historical_hr_output'
+    call_pipeline(historical_input, historical_output)
+    assert read_rows(historical_output / 'canonical.duckdb', 'select tipo from ap_titulos') == [('FATURA_FORNECEDOR',)]
+    assert read_rows(historical_output / 'canonical.duckdb', "select count(*) from int_ap_release_gate where list_contains(final_release_blockers,'stage3_gate:former_employee_reimbursement_review')") == [(1,)]
+
+    classification_input = make_stage3_fixture(folder / 'classification', with_cards=True)
+    transaction_file = classification_input / 'transactions.csv'
+    transaction_file.write_text(transaction_file.read_text(encoding='utf-8-sig').replace(',GOOD,', ',TRANSP-FUNC,'), encoding='utf-8-sig')
+    write_aux_csv(classification_input / 'expense.csv',
+                  ['codigo_despesa','descricao','conta_contabil','conta_gerencial_sugerida','observacao'],
+                  [['TRANSP-FUNC','Revisão de classificação','5.1.01.001','G3.02','']])
+    classification_output = folder / 'classification_output'
+    call_pipeline(classification_input, classification_output)
+    assert read_rows(classification_output / 'canonical.duckdb', 'select count(*) from ap_titulos') == [(0,)]
+    assert read_rows(classification_output / 'canonical.duckdb', "select count(*) from int_ap_release_gate where list_contains(final_release_blockers,'cost_expense_classification_pending')") == [(2,)]
+
     resend_input = folder / "resend" / "input"
     shutil.copytree(valid_input, resend_input)
     (resend_input / "demonstrativo_reenvio.csv").write_bytes((valid_input / "demonstrativo.csv").read_bytes() + b"\r\n")
@@ -287,7 +317,7 @@ def check_stage3_synthetic(folder: Path):
 def main():
     if TEST_ROOT.exists():
         resolved = TEST_ROOT.resolve(strict=True)
-        allowed = (ROOT / "output").resolve(strict=True)
+        allowed = TEST_ROOT.parent.resolve(strict=True)
         if allowed not in resolved.parents or TEST_MARKER.read_text(encoding="utf-8") != "Stage 1 synthetic test output; safe to recreate.\n":
             raise RuntimeError(f"Refusing to clean unmarked synthetic directory: {resolved}")
         shutil.rmtree(TEST_ROOT)
@@ -365,8 +395,13 @@ def main():
     write_csv(d8, "collision.csv", [row("trip-collision", "20/08/26 18:00:00", amount="1.00"), row("trip-collision", "20/08/26 18:00:10", amount="1.00")])
     failed = call_pipeline(d8, TEST_ROOT / "d8_run", expect_ok=False)
     assert "no_minute_key_collision_with_seconds" in failed.stdout
+    assert not list(TEST_ROOT.glob(".d8_run.build-*")), "a failed dbt build must not leave its temporary folder"
+    call_pipeline(d8, TEST_ROOT / "d8_keep", expect_ok=False, extra_args=["--keep-failed-build"])
+    kept = list(TEST_ROOT.glob(".d8_keep.build-*"))
+    assert len(kept) == 1 and (kept[0] / "logs").is_dir(), kept
+    shutil.rmtree(kept[0])
     check_stage3_synthetic(TEST_ROOT / "stage3")
-    print("synthetic_checks=PASS; scenarios=column_reorder,byte_alias,within_file_repeat,null_vs_zero,A15,unknown_type,identity_error,multi_fare,accept,reject,stale,rereun,money_residual,money_threshold,D8,AP_valid_release,AP_reimbursement_release,erp_utf8_no_bom,card_brand_case_route_by_type,statement_resend_same_ids,statement_conflict_unknown_total,AP_whole_title_blocked_by_component,statement_overprecision,partial_month_period")
+    print("synthetic_checks=PASS; scenarios=column_reorder,byte_alias,within_file_repeat,null_vs_zero,A15,unknown_type,identity_error,multi_fare,accept,reject,stale,rereun,money_residual,money_threshold,D8,failed_build_cleanup,keep_failed_build,inherited_output_acl,AP_valid_release,AP_reimbursement_release,erp_utf8_no_bom,card_brand_case_route_by_type,statement_resend_same_ids,statement_conflict_unknown_total,AP_whole_title_blocked_by_component,statement_overprecision,partial_month_period")
 
 
 if __name__ == "__main__":
