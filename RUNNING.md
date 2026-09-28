@@ -28,6 +28,8 @@ Os caminhos do executável dbt e os finais de linha dos relatórios foram tratad
 
 - `output/README.md`: índice dos entregáveis do pipeline, incluindo canônico, vínculo por e-mail, resumo por CC, imports, retenções, linhagem, DQ e resumo para o controller.
 - `reconciliation/README.md`: leitura da conciliação, resultados por título e estratégia de associação.
+- `analysis/analise_uber_ap.ipynb`: consolidação e achados, com `assert` que amarram cada total aos títulos candidatos e às retenções.
+- `analysis/resumo_controller.pdf`: resumo para a controladoria, gerado pelo notebook.
 - `docs/18_analise_final_pipeline.md`: análise arquitetural, dados e negócios, com ponte de valores.
 - `docs/12_registro_acoes_financeiras.md`: ações do financeiro e evidências ainda necessárias.
 - `docs/17_validacao_correcoes.md`: alterações e verificações da revisão atual.
@@ -63,6 +65,13 @@ N:1 exige dois títulos da mesma matrícula. Homônimos ambíguos ficam em revis
 .\.venv\Scripts\python.exe tests_data_controls.py
 .\.venv\Scripts\python.exe tests_bank_reconciliation.py
 .\.venv\Scripts\python.exe tests_synthetic.py
+```
+
+Depois do pipeline e da conciliação, o notebook recalcula a análise e o PDF da controladoria. Qualquer total que deixe de amarrar interrompe a execução:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r analysis\requirements.txt
+$env:PYTHONUTF8 = "1"; .\.venv\Scripts\jupyter-execute --inplace analysis\analise_uber_ap.ipynb
 ```
 
 O build executa 33 modelos, um seed e 33 testes dbt antes de publicar. A suíte sintética cobre liberação integral, retenção, reenvios, decisões, publicação e regras de RH/classificação. O teste bancário verifica o oráculo da amostra, conservação das atribuições, homônimos, N:1, CPF bloqueado e diferença material de boleto.

@@ -10,4 +10,5 @@ dbt/seeds/*.csv -text
 reconciliation/** -text
 output/** -text
 *.xlsx binary
+*.pdf binary
 *.duckdb binary

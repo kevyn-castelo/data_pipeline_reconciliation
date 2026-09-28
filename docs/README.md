@@ -2,7 +2,7 @@
 
 Os arquivos estão numerados na ordem em que foram escritos. Cada número é uma etapa: desenho do contrato, plano, implementação, revisões e análise final. Documentos substituídos continuam aqui como histórico; o status abaixo indica qual versão vale.
 
-**Para ler o estado atual:** [07](07_contrato_v4_consolidado.md) (desenho vigente), [18](18_analise_final_pipeline.md) (análise final), [17](17_validacao_correcoes.md) (validação das correções) e [12](12_registro_acoes_financeiras.md) (ações financeiras pendentes).
+**Para ler o estado atual:** a pasta [`analysis/`](../analysis/) reúne o notebook e o resumo da controladoria; [07](07_contrato_v4_consolidado.md) é o desenho vigente, [18](18_analise_final_pipeline.md) reúne arquitetura e ponte de valores em texto, [17](17_validacao_correcoes.md) valida as correções e [12](12_registro_acoes_financeiras.md) registra ações financeiras pendentes.
 
 **Para entender como se chegou lá:** na cópia local, ler de 01 a 18 em sequência; no repositório público, começar pelo documento 07 e seguir os documentos publicados.
 
@@ -29,7 +29,7 @@ A data vem do próprio documento; o horário, da última gravação do arquivo a
 | 15 | 28/09 16:51 | Revisão 2 | `15_verificacao_entregaveis.md` | Checklist dos entregáveis do TASK contra os artefatos, com ressalvas | Histórico, *local* |
 | 16 | 28/09 ~17:40 | Revisão 3 | [`16_reavaliacao_pos_commit.md`](16_reavaliacao_pos_commit.md) | Reavaliação após o commit `0bf9a1b`: reembolsos não estavam zerados; problemas de apresentação e regra na conciliação | Histórico; corrigido em 17 |
 | 17 | 28/09 18:18 | Validação | [`17_validacao_correcoes.md`](17_validacao_correcoes.md) | Validação das correções do commit `db1f5b6`: build 67/67, ponte de valores e conciliação no esquema 2 | **Vigente** |
-| 18 | 28/09 (última revisão após 17) | Análise final | [`18_analise_final_pipeline.md`](18_analise_final_pipeline.md) | Análise sênior reemitida após as revisões 10 e 14: arquitetura, ponte de valores, centros de custo, conciliação e decisões do cliente | **Vigente** |
+| 18 | 28/09 (última revisão após 17) | Análise final | [`18_analise_final_pipeline.md`](18_analise_final_pipeline.md) | Análise final reemitida após as revisões 10 e 14: arquitetura, ponte de valores, centros de custo, conciliação e decisões do cliente | **Vigente** para arquitetura; análise numérica consolidada no notebook em `analysis/` |
 
 A análise 18 começou antes da revisão 10 e foi reescrita depois das revisões; a versão anterior não foi preservada separadamente. Por isso ela aparece no fim da linha do tempo.
 

@@ -1,4 +1,4 @@
-# Análise sênior — Uber for Business → Contas a Pagar
+# Análise final do pipeline — Uber for Business → Contas a Pagar
 
 **Corte da análise:** 28/09/2026. A revisão independente em `docs/10_revisao_independente_parecer.md` orientou as correções. As consultas em `docs/11_analise_consultas.py` e `docs/10_revisao_independente_consultas.py` reproduzem os números de negócio; `output/` contém o build corrigido (67/67 tarefas dbt aprovadas) e `reconciliation/` contém o resultado da conciliação bancária, com esquema 2. A primeira competência automatizada está **provisoriamente configurada como setembro/2026**, sujeita à confirmação do cliente para implantação. Nenhum arquivo foi importado no ERP.
 
