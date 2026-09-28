@@ -16,15 +16,15 @@ __pycache__/
 .test_output/
 
 # Documentos internos de trabalho e revisão: mantidos localmente, fora do repositório público
-docs/prompt_analytics_engineer.md
-docs/parecer_analytics_engineer.md
-docs/verificacao_entregaveis_case.md
-docs/contrato_canonico_proposta_v0.md
-docs/contrato_canonico_proposta_v1.md
-docs/contrato_canonico_v2.md
-docs/contrato_canonico_v3.md
-docs/contrato_canonico_v3_1_adendo_resumo.md
-docs/decisoes_anteriores_canonical_para_comparacao.md
+docs/13_revisao_analytics_engineer_prompt.md
+docs/14_revisao_analytics_engineer_parecer.md
+docs/15_verificacao_entregaveis.md
+docs/01_contrato_v0_proposta.md
+docs/03_contrato_v1_proposta.md
+docs/04_contrato_v2.md
+docs/05_contrato_v3.md
+docs/06_contrato_v3-1_adendo_aba_resumo.md
+docs/02_contrato_decisoes_anteriores.md
 
 # Identificador anônimo de telemetria do dbt, gerado por máquina (não é código)
 dbt/.user.yml

@@ -1,7 +1,7 @@
 # Plano de implementação — case Uber → Alchemy ERP
 
 **Data:** 27/09/2026. **Status:** autorizado para execução por etapas e code-review.  
-**Contrato vigente:** `contrato_canonico_v4.md`. As versões anteriores são histórico.  
+**Contrato vigente:** `07_contrato_v4_consolidado.md`. As versões anteriores são histórico.
 **Modo de trabalho:** ponytail full; menor implementação que atende à TASK e ao contrato, sem retirar controles financeiros.
 
 ## Objetivo e divisão de responsabilidade

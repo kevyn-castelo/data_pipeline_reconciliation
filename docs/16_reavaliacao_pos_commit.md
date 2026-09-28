@@ -1,6 +1,6 @@
 # Reavaliação dos entregáveis após o commit
 
-> **Registro histórico da revisão anterior às correções.** A conciliação e o versionamento de `output/` foram corrigidos depois deste parecer. Para os números e status vigentes, consultar `docs/validacao_correcoes.md`, `reconciliation/README.md` e `output/README.md`. As colunas `diferenca` e `held_unpayable` descritas abaixo pertencem ao esquema antigo.
+> **Registro histórico da revisão anterior às correções.** A conciliação e o versionamento de `output/` foram corrigidos depois deste parecer. Para os números e status vigentes, consultar `docs/17_validacao_correcoes.md`, `reconciliation/README.md` e `output/README.md`. As colunas `diferenca` e `held_unpayable` descritas abaixo pertencem ao esquema antigo.
 
 Data da revisão: 28/09/2026. Commit local: `0bf9a1b` (main, alinhado à referência local origin/main). O remoto não foi atualizado por fetch nesta revisão. Há alterações locais não commitadas em `.gitignore`, `RUNNING.md`, `run.py` e `tests_synthetic.py`. Nenhum desses arquivos foi alterado por esta revisão.
 
@@ -43,7 +43,7 @@ Os problemas 3–5 não alteraram os resultados esperados desta amostra, mas lim
 | Imports de AP, candidatos retidos e linhagem | Existem em `output/`, ignorado pelo Git |
 | DQ e eventos de normalização | Existem em `output/`, ignorado pelo Git |
 | Resumo do controller | Existe em `output/`, ignorado pelo Git |
-| Análise de dados, negócio e arquitetura | Versionada em `docs/analise_senior_pipeline.md` |
+| Análise de dados, negócio e arquitetura | Versionada em `docs/18_analise_final_pipeline.md` |
 | Conciliação opcional | Código e cinco saídas CSV/JSON versionados |
 
 Se o repositório for a única entrega, o avaliador terá de gerar as saídas obrigatórias. Para facilitar o aceite, publicar um conjunto enxuto de saídas demonstrativas (sem banco, logs e fixtures) ou fornecer instruções completas e verificadas de instalação e geração a partir de um clone limpo. O `RUNNING.md` atual ainda parte de uma `.venv` já existente e mistura resultados históricos com a execução vigente.

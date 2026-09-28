@@ -15,4 +15,4 @@ Os CSVs, os manifestos JSON e os documentos desta pasta são versionados. O banc
 | Proveniência | input_manifest.json, run_summary.json |
 
 Os imports podem conter apenas cabeçalhos: consultar os bloqueios dos candidatos. Valores conhecidos não substituem valores ausentes ou disputados.
-Conciliação bancária: ../reconciliation/README.md. Análise e arquitetura: ../docs/analise_senior_pipeline.md. Execução: ../RUNNING.md.
+Conciliação bancária: ../reconciliation/README.md. Análise e arquitetura: ../docs/18_analise_final_pipeline.md. Execução: ../RUNNING.md.

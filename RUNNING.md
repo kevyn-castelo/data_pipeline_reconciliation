@@ -28,9 +28,10 @@ Os caminhos do executável dbt e os finais de linha dos relatórios foram tratad
 
 - `output/README.md`: índice dos entregáveis do pipeline, incluindo canônico, vínculo por e-mail, resumo por CC, imports, retenções, linhagem, DQ e resumo para o controller.
 - `reconciliation/README.md`: leitura da conciliação, resultados por título e estratégia de associação.
-- `docs/analise_senior_pipeline.md`: análise arquitetural, dados e negócios, com ponte de valores.
-- `docs/registro_acoes_financeiras.md`: ações do financeiro e evidências ainda necessárias.
-- `docs/validacao_correcoes.md`: alterações e verificações da revisão atual.
+- `docs/18_analise_final_pipeline.md`: análise arquitetural, dados e negócios, com ponte de valores.
+- `docs/12_registro_acoes_financeiras.md`: ações do financeiro e evidências ainda necessárias.
+- `docs/17_validacao_correcoes.md`: alterações e verificações da revisão atual.
+- `docs/README.md`: linha do tempo numerada de todos os documentos, do primeiro contrato à análise final.
 
 Os CSVs, JSONs, Markdown e marcadores de `output/` entram no Git. `canonical.duckdb`, cópias/compilações dbt e logs são regenerados localmente e ficam ignorados. Os resultados sintéticos ficam em `.test_output/`, também ignorada. Não é necessário versionar o banco para ler os entregáveis; é necessário regenerá-lo para consultar SQL ou executar novamente a conciliação.
 

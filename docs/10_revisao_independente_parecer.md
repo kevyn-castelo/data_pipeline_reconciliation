@@ -1,8 +1,8 @@
 # Parecer de revisão independente: pipeline Uber for Business → Contas a Pagar
 
-**Escopo:** revisão de `docs/analise_senior_pipeline.md` e `docs/analise_consultas.py` contra `TASK.md`, `README.md`, o layout do ERP, a política de mobilidade, `run.py`, os modelos dbt e os artefatos de `output/`.
+**Escopo:** revisão de `docs/18_analise_final_pipeline.md` e `docs/11_analise_consultas.py` contra `TASK.md`, `README.md`, o layout do ERP, a política de mobilidade, `run.py`, os modelos dbt e os artefatos de `output/`.
 **Data-base:** 28/09/2026.
-**Método:** todas as consultas foram feitas em modo somente leitura sobre uma cópia de `output/canonical.duckdb`. `analise_consultas.py` foi reexecutado integralmente. O pipeline atual foi reexecutado numa pasta de verificação temporária, removida depois da comparação. Os SHA-256 de `data/` foram conferidos antes e depois e permaneceram idênticos. As evidências deste parecer podem ser reproduzidas com `docs/parecer_consultas.py`. Nenhum dado de origem foi alterado. Não construí dashboard nem conciliação bancária: o extrato foi apenas lido, para avaliar a lacuna descrita na análise.
+**Método:** todas as consultas foram feitas em modo somente leitura sobre uma cópia de `output/canonical.duckdb`. `11_analise_consultas.py` foi reexecutado integralmente. O pipeline atual foi reexecutado numa pasta de verificação temporária, removida depois da comparação. Os SHA-256 de `data/` foram conferidos antes e depois e permaneceram idênticos. As evidências deste parecer podem ser reproduzidas com `docs/10_revisao_independente_consultas.py`. Nenhum dado de origem foi alterado. Não construí dashboard nem conciliação bancária: o extrato foi apenas lido, para avaliar a lacuna descrita na análise.
 
 **Escala de gravidade:**
 
@@ -394,12 +394,12 @@ O **dimensionamento está incorreto**:
 | P2.2 | Propor as regras de identidade de R09 (subendereço, domínio antigo, matrícula única entre registros duplicados), com corroboração obrigatória pelo Employee ID, e a checagem Employee ID × matrícula. | Após aprovação: 25 componentes (R$ 1.472,23) ligados com regra e evidência registradas. `comercial@` e o consultor externo continuam `needs_client`. Os 2 desvios de Employee ID aparecem no DQ. |
 | P2.3 | Compliance no grão da corrida ou pedido (só Fare, com gorjeta e ajuste agregados ao pedido); teto de Eats por pedido. | 72 pedidos avaliados e 4 sinalizados acima de R$ 80. Fim de semana sem ajustes e sem datas impossíveis. |
 | P2.4 | Reescrever §4 da análise. Universo = títulos liberados + candidatos retidos + títulos manuais do ERP. Confiança em camadas: **alta** = valor exato + prefixo de beneficiário normalizado (18 caracteres) + janela de vencimento em dias úteis + unicidade; **média** = um dos três relaxado (±R$ 0,05, janela maior ou N:1 do mesmo beneficiário); **baixa** = sugestão. | Aplicada a este extrato, a futura conciliação reproduz exatamente a tabela da seção 4: 12 exatos, 1 com −0,01, 1 N:1 (2 títulos), 1 em aberto, 1 duplicidade, fatura de jul exata, fatura de ago com +305,27 e o débito de 33,20 ligado à rota VISA 0042. |
-| P2.5 | Reemitir `analise_senior_pipeline.md`: incorporar R01–R05, R09–R12 e R14, nomear os CCs e trocar "retidas" por "pagas fora da integração, pendentes de classificação". | Cada número novo rastreável a uma consulta de `docs/parecer_consultas.py` ou equivalente. A ponte da seção 4 fecha ao centavo. |
+| P2.5 | Reemitir `18_analise_final_pipeline.md`: incorporar R01–R05, R09–R12 e R14, nomear os CCs e trocar "retidas" por "pagas fora da integração, pendentes de classificação". | Cada número novo rastreável a uma consulta de `docs/10_revisao_independente_consultas.py` ou equivalente. A ponte da seção 4 fecha ao centavo. |
 
 ---
 
 ## 7. Evidências e reprodução
 
-- Consultas deste parecer: `& '.\.venv\Scripts\python.exe' docs\parecer_consultas.py` (somente leitura; o extrato é apenas listado).
+- Consultas deste parecer: `& '.\.venv\Scripts\python.exe' docs\10_revisao_independente_consultas.py` (somente leitura; o extrato é apenas listado).
 - Reexecução do pipeline atual numa pasta temporária (PASS=61), removida após a revisão. Comparação byte a byte com `output/` e com uma execução de revisão anterior: idênticos, exceto `dq_report.csv`. Para reproduzir o teste de determinismo, execute `run.py` duas vezes em pastas distintas e compare o SHA-256 de cada CSV.
 - Hashes de `data/` conferidos antes e depois da reexecução: sem alteração.

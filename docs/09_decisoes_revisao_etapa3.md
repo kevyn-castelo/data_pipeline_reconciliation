@@ -1,6 +1,6 @@
 # Adendo — decisões da revisão da etapa 3 (28/09/2026)
 
-**Complementa:** `contrato_canonico_v4.md` e `plano_implementacao.md`. Prevalece nos pontos abaixo.
+**Complementa:** `07_contrato_v4_consolidado.md` e `08_plano_implementacao.md`. Prevalece nos pontos abaixo.
 **Origem:** revisão técnica (bug-hunt, ponytail-review, data-engineer), avaliação de um segundo revisor e aprovação do usuário.
 
 ## Decisões aprovadas e implementadas

@@ -1,8 +1,8 @@
 # Contrato canônico — Uber for Business → Contas a Pagar (v4 — consolidado e congelado)
 
 **Data:** 27/09/2026
-**Substitui:** `contrato_canonico_v3.md` e seu adendo `contrato_canonico_v3_1_adendo_resumo.md`, além das versões anteriores (preservadas como histórico). Esta v4 é a referência local vigente.
-**Considera:** `decisoes_anteriores_canonical_para_comparacao.md`.
+**Substitui:** `05_contrato_v3.md` e seu adendo `06_contrato_v3-1_adendo_aba_resumo.md`, além das versões anteriores (preservadas como histórico). Esta v4 é a referência local vigente.
+**Considera:** `02_contrato_decisoes_anteriores.md`.
 **Status:** **congelado para implementação.** Consolida as cinco correções financeiras, a exclusão da aba Resumo e os esclarecimentos finais aprovados: serial temporal XLSX, ingestão única por hash e fixture A15. Não há decisão arquitetural pendente para iniciar o case. Mudanças posteriores devem registrar motivo e nova versão; não é necessária outra rodada geral de revisão.
 
 Congelamento significa uma base de desenho aprovada. Não significa código implementado, testes executados ou valores liberados financeiramente. Essas evidências serão produzidas na implementação. A conclusão do case admite retenções explícitas e perguntas ao cliente; não depende de resolver todas as ambiguidades das fontes.
@@ -337,7 +337,7 @@ As regras A12–A15 e as seções 7–8 integram o congelamento. Não há aprova
 - Ingestão única por SHA-256 completo, preservando nomes recebidos; duplicação de linhas dentro da fonte continua visível.
 - Resíduos submicrossegundo de seriais XLSX normalizados antes da chave, com limite, log e original preservado.
 - Fixture A15 usa horário de request; D8 mantém teste e bloqueio separados.
-- Plano de execução e delegação em `plano_implementacao.md`. Evidências de execução e code-review serão registradas separadamente das decisões de desenho.
+- Plano de execução e delegação em `08_plano_implementacao.md`. Evidências de execução e code-review serão registradas separadamente das decisões de desenho.
 
 ### v2 → v3 — consolidação final para implementação
 

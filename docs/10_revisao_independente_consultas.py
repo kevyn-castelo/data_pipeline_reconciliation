@@ -1,6 +1,6 @@
 """Evidências reproduzíveis do parecer de revisão independente (somente leitura).
 
-Executar na raiz: & '.\\.venv\\Scripts\\python.exe' docs\\parecer_consultas.py
+Executar na raiz: & '.\\.venv\\Scripts\\python.exe' docs\\10_revisao_independente_consultas.py
 Não altera o banco nem os dados de origem; o extrato é apenas listado, sem pareamento automático.
 """
 

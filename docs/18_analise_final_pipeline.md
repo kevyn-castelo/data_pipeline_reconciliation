@@ -1,6 +1,6 @@
 # Análise sênior — Uber for Business → Contas a Pagar
 
-**Corte da análise:** 28/09/2026. A revisão independente em `docs/parecer_revisao_independente.md` orientou as correções. As consultas em `docs/analise_consultas.py` e `docs/parecer_consultas.py` reproduzem os números de negócio; `output/` contém o build corrigido (67/67 tarefas dbt aprovadas) e `reconciliation/` contém o resultado da conciliação bancária, com esquema 2. A primeira competência automatizada está **provisoriamente configurada como setembro/2026**, sujeita à confirmação do cliente para implantação. Nenhum arquivo foi importado no ERP.
+**Corte da análise:** 28/09/2026. A revisão independente em `docs/10_revisao_independente_parecer.md` orientou as correções. As consultas em `docs/11_analise_consultas.py` e `docs/10_revisao_independente_consultas.py` reproduzem os números de negócio; `output/` contém o build corrigido (67/67 tarefas dbt aprovadas) e `reconciliation/` contém o resultado da conciliação bancária, com esquema 2. A primeira competência automatizada está **provisoriamente configurada como setembro/2026**, sujeita à confirmação do cliente para implantação. Nenhum arquivo foi importado no ERP.
 
 ## 1. Parecer executivo e escopo financeiro
 
@@ -112,4 +112,4 @@ O aceite passou: **12 reembolsos com pagamento principal exato, um com −R$ 0,0
 - Arquivos de integração: `output/ap_titulos.csv` e `output/ap_rateios.csv`. Conferir sempre valor e quantidade contra o gate antes da importação.
 - Em cada mês: registrar manifesto/hashes, executar em saída versionada, conferir testes e ponte de valores, aprovar pendências em seed com evidência, publicar apenas títulos liberados e arquivar resposta do ERP. A análise deve ser recalculada após qualquer resolução; os montantes atuais não representam estado permanente.
 
-**Status:** análise corrigida, controles da amostra e conciliação bancária entregues. Antes de qualquer importação futura, confirmar a primeira competência automatizada, carregar do ERP os títulos já emitidos/liquidados e resolver as decisões cadastrais/contábeis. O caso histórico de julho/agosto permanece bloqueado. O registro de ações financeiras em `docs/registro_acoes_financeiras.md` separa evidência bancária, ação operacional e confirmação ainda pendente.
+**Status:** análise corrigida, controles da amostra e conciliação bancária entregues. Antes de qualquer importação futura, confirmar a primeira competência automatizada, carregar do ERP os títulos já emitidos/liquidados e resolver as decisões cadastrais/contábeis. O caso histórico de julho/agosto permanece bloqueado. O registro de ações financeiras em `docs/12_registro_acoes_financeiras.md` separa evidência bancária, ação operacional e confirmação ainda pendente.
