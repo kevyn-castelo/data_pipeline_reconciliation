@@ -2,7 +2,7 @@
 
 ## Preparar uma cópia nova
 
-Ambiente validado: Windows, Python 3.14.6. As versões de DuckDB, dbt e openpyxl estão fixadas em `requirements.txt`. Na raiz do repositório, em PowerShell:
+Ambiente validado ponta a ponta: Windows, Python 3.14.6. As versões de DuckDB, dbt e openpyxl estão fixadas em `requirements.txt`. Na raiz do repositório, em PowerShell:
 
 ```powershell
 python -m venv .venv
@@ -13,7 +13,16 @@ python -m venv .venv
 
 A data explícita reproduz o corte dos entregáveis versionados. Em uma execução operacional, informar a data de avaliação correta. `--first-competence YYYY-MM` controla o início da automação; setembro/2026 é uma premissa configurada para este case e depende de confirmação para implantação. Ela impede reimportar o histórico de julho/agosto. Não representa uma pendência para concluir a análise do case.
 
-O script é validado em Windows e localiza `dbt.exe` ao lado do Python do ambiente virtual. Portabilidade para outros sistemas ainda não foi validada.
+Em macOS/Linux, depois de instalar Python 3.14.6, o ambiente virtual usa `./.venv/bin/python` e o pipeline encontra `./.venv/bin/dbt`:
+
+```bash
+python3.14 -m venv .venv
+./.venv/bin/python -m pip install -r requirements.txt
+./.venv/bin/python run.py --output output --as-of-date 2026-09-28
+./.venv/bin/python bank_reconciliation.py --pipeline-output output --output reconciliation
+```
+
+Os caminhos do executável dbt e os finais de linha dos relatórios foram tratados para os três sistemas. macOS/Linux ainda não receberam uma execução ponta a ponta neste projeto; o aceite observado é em Windows.
 
 ## Onde estão os resultados
 

@@ -4,6 +4,7 @@ import argparse
 import csv
 import hashlib
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -163,6 +164,11 @@ def code_digest():
         h.update(path.read_bytes())
         h.update(b"\0")
     return h.hexdigest()
+
+
+def dbt_cli_for_python(python_executable: str | Path, platform_name: str | None = None) -> Path:
+    """Use the dbt command installed in the same virtual environment as Python."""
+    return Path(python_executable).with_name("dbt.exe" if (platform_name or os.name) == "nt" else "dbt")
 
 
 def load_issued_ledger(con, path):
@@ -536,7 +542,7 @@ def ingest(source_dir, con, outdir):
         sha, name, sheet, layout, row, lstart, lend, orig, canon, _ = o
         occid = f"{sha[:16]}:{sheet or ''}:{row}"
         con.execute("INSERT INTO raw_uber_occurrences VALUES (?, ?, ?, ?, ?, ?, ?, ?::JSON, ?::JSON, ?)", [sha, name, sheet, layout, row, lstart, lend, orig, canon, occid])
-    (outdir / "input_manifest.json").write_text(json.dumps({"unique_content": [{"file_sha256": h, "reference_file": p.name, "aliases": aliases[h]} for (p, h) in files]}, ensure_ascii=False, indent=2), encoding="utf-8")
+    (outdir / "input_manifest.json").write_text(json.dumps({"unique_content": [{"file_sha256": h, "reference_file": p.name, "aliases": aliases[h]} for (p, h) in files]}, ensure_ascii=False, indent=2), encoding="utf-8", newline="\r\n")
 
 
 def _layout_id(headers):
@@ -684,7 +690,7 @@ def main():
 
 
 def build_output(args, out):
-    (out / ".uber_pipeline_output").write_text("Pasta gerada por run.py.\n", encoding="utf-8")
+    (out / ".uber_pipeline_output").write_text("Pasta gerada por run.py.\n", encoding="utf-8", newline="\r\n")
     db = out / "canonical.duckdb"
     con = duckdb.connect(str(db))
     try:
@@ -692,7 +698,9 @@ def build_output(args, out):
         load_issued_ledger(con, args.issued_ledger)
     finally:
         con.close()
-    dbt_cli = Path(sys.executable).with_name("dbt.exe")
+    dbt_cli = dbt_cli_for_python(sys.executable)
+    if not dbt_cli.is_file():
+        raise FileNotFoundError(f"dbt não encontrado no ambiente Python: {dbt_cli}. Instale requirements.txt no mesmo ambiente.")
     raw_con = duckdb.connect(str(db), read_only=True)
     try:
         configs = [json.loads(x[0]) for x in raw_con.execute("select date_formats_json::varchar from raw_files where sheet_role='transactions'").fetchall()]
@@ -708,7 +716,7 @@ def build_output(args, out):
     dbt_project = out / "dbt_project"
     shutil.copytree(ROOT / "dbt", dbt_project)
     shutil.copy2(args.resolutions.resolve(), dbt_project / "seeds" / "resolutions.csv")
-    subprocess.run([str(dbt_cli), "build", "--project-dir", str(dbt_project), "--profiles-dir", str(dbt_project), "--target-path", str(out / "dbt_target"), "--log-path", str(out / "logs"), "--vars", dbt_vars], check=True, cwd=ROOT, env={**__import__("os").environ, "PIPELINE_DB": str(db), "DBT_PROFILES_DIR": str(dbt_project)})
+    subprocess.run([str(dbt_cli), "build", "--project-dir", str(dbt_project), "--profiles-dir", str(dbt_project), "--target-path", str(out / "dbt_target"), "--log-path", str(out / "logs"), "--vars", dbt_vars], check=True, cwd=ROOT, env={**os.environ, "PIPELINE_DB": str(db), "DBT_PROFILES_DIR": str(dbt_project)})
     con = duckdb.connect(str(db), read_only=True)
     try:
         export_tables(con, out)
@@ -724,7 +732,7 @@ def build_output(args, out):
             "python_version": sys.version.split()[0],
             "as_of_date": args.as_of_date.isoformat(),
             "first_automated_competence": args.first_competence,
-        }, indent=2), encoding="utf-8")
+        }, indent=2), encoding="utf-8", newline="\r\n")
     finally:
         con.close()
 
@@ -864,7 +872,7 @@ def write_controller_summary(con, out, args):
     else:
         lines.append('Não há um único extrato identificado na entrada; executar a conciliação separadamente com a fonte selecionada.')
     lines.extend(["", "Os números por rota e centro de custo estão em `int_monthly_cost_center_payment_summary.csv`. Os arquivos detalhados da conciliação são gerados por `bank_reconciliation.py` em `reconciliation/`, com movimentos únicos e valores atribuídos por título. Nenhuma baixa no ERP é executada.", ""])
-    (out / "controller_summary.md").write_text("\n".join(lines), encoding="utf-8")
+    (out / "controller_summary.md").write_text("\n".join(lines), encoding="utf-8", newline="\r\n")
     (out / 'README.md').write_text('''# Entregáveis gerados
 
 Os CSVs, os manifestos JSON e os documentos desta pasta são versionados. O banco DuckDB, cópias dbt, logs e testes permanecem locais.
@@ -883,7 +891,7 @@ Os CSVs, os manifestos JSON e os documentos desta pasta são versionados. O banc
 
 Os imports podem conter apenas cabeçalhos: consultar os bloqueios dos candidatos. Valores conhecidos não substituem valores ausentes ou disputados.
 Conciliação bancária: ../reconciliation/README.md. Análise e arquitetura: ../docs/analise_senior_pipeline.md. Execução: ../RUNNING.md.
-''',encoding='utf-8')
+''',encoding='utf-8',newline='\r\n')
 
 
 if __name__ == "__main__":

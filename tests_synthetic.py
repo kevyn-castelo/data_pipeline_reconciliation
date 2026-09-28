@@ -14,12 +14,14 @@ from pathlib import Path
 import duckdb
 import openpyxl
 
-from run import CANONICAL_FIELDS, ROOT
+from run import CANONICAL_FIELDS, ROOT, dbt_cli_for_python
 
 
 # Outside the published output/: test artifacts must never block or pollute a real publication.
 TEST_ROOT = ROOT / ".test_output" / "synthetic"
 TEST_MARKER = TEST_ROOT / ".synthetic-owned"
+assert dbt_cli_for_python(Path('venv') / 'bin' / 'python', 'posix') == Path('venv') / 'bin' / 'dbt'
+assert dbt_cli_for_python(Path('venv') / 'Scripts' / 'python.exe', 'nt') == Path('venv') / 'Scripts' / 'dbt.exe'
 HEADER_BY_FIELD = {field: aliases[0] for field, aliases in CANONICAL_FIELDS.items()}
 HEADERS = list(HEADER_BY_FIELD.values())
 

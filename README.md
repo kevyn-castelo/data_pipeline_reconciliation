@@ -2,9 +2,11 @@
 
 This repository implements the [Alchemy case requirements](TASK.md) for Indústria Madeireira Paraná Ltda. It reads the fictional Uber reports and client reference files in `data/`, produces canonical transactions and payable candidates, and records why a candidate cannot be imported. The optional bank reconciliation is a separate, read-only step. **Nothing connects to or posts into the ERP.**
 
-## Reproduce locally (Windows PowerShell)
+## Reproduce locally
 
-Use Windows, Git and Python **3.14.6** (the tested version). Dependency versions are pinned in [`requirements.txt`](requirements.txt). The first installation needs package-index access; the pipeline itself needs no API keys or external services. Run these commands from PowerShell:
+Use Git and Python **3.14.6** (the tested version). Dependency versions are pinned in [`requirements.txt`](requirements.txt). The first installation needs package-index access; the pipeline itself needs no API keys or external services. The full pipeline has been run on Windows. The macOS/Linux commands below use the same virtual-environment layout and have not yet been executed on those systems.
+
+### Windows PowerShell
 
 ```powershell
 git clone https://github.com/kevyn-castelo/data_pipeline_reconciliation.git
@@ -25,9 +27,25 @@ Run the checks after generating `output/canonical.duckdb`:
 git diff --exit-code -- output reconciliation
 ```
 
-The pipeline build should end with **PASS=67, ERROR=0**; the three Python checks should pass. The final `git diff` should print nothing for this fixed input set and date. A separate reproduction run matched all **52** versioned CSV/JSON/Markdown files in `output/` and all **8** in `reconciliation/` byte for byte. The tracked `output/` contains readable deliverables; its ignored DuckDB database, dbt artifacts and logs are recreated by `run.py`. Close any Excel or DuckDB handle on `output/` before rebuilding on Windows, because publication replaces that directory.
+### macOS or Linux shell
 
-`--as-of-date` is explicit so overdue decisions and the reports are reproducible. For a new closing period, use the actual evaluation date. The configured first automated competence, **2026-09**, is a case assumption awaiting client confirmation before deployment; it prevents historical July/August reimport. The code has been validated on Windows; other operating systems have not been validated because `run.py` looks for `dbt.exe` beside the virtual-environment Python.
+```bash
+git clone https://github.com/kevyn-castelo/data_pipeline_reconciliation.git
+cd data_pipeline_reconciliation
+python3.14 --version
+python3.14 -m venv .venv
+./.venv/bin/python -m pip install -r requirements.txt
+./.venv/bin/python run.py --input data --output output --as-of-date 2026-09-28
+./.venv/bin/python bank_reconciliation.py --pipeline-output output --bank data/extrato_itau_cc_2026-07_a_2026-09.csv --output reconciliation
+./.venv/bin/python tests_data_controls.py
+./.venv/bin/python tests_bank_reconciliation.py
+./.venv/bin/python tests_synthetic.py
+git diff --exit-code -- output reconciliation
+```
+
+The pipeline build should end with **PASS=67, ERROR=0**; the three Python checks should pass. The final `git diff` should print nothing for this fixed input set, date and Python version. A separate Windows reproduction run matched all **52** versioned CSV/JSON/Markdown files in `output/` and all **8** in `reconciliation/` byte for byte. The tracked `output/` contains readable deliverables; its ignored DuckDB database, dbt artifacts and logs are recreated by `run.py`. Close any Excel or DuckDB handle on `output/` before rebuilding on Windows, because publication replaces that directory.
+
+`--as-of-date` is explicit so overdue decisions and the reports are reproducible. For a new closing period, use the actual evaluation date. The configured first automated competence, **2026-09**, is a case assumption awaiting client confirmation before deployment; it prevents historical July/August reimport. `run.py` locates `dbt.exe` on Windows or `dbt` on macOS/Linux beside the virtual-environment Python. Report text uses fixed line endings to make generated files comparable across operating systems. macOS/Linux remain unverified by an end-to-end run.
 
 ## Deliverables in this repository
 

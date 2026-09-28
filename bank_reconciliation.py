@@ -318,7 +318,7 @@ def write_summary(out, titles, entries, visa_matches, unmatched, pipeline_summar
                  reimbursement_primary_payments=money(sum(t['paid_cents'] or 0 for t in rr)),
                  reimbursement_duplicate_payments=money(sum(t['duplicate_cents'] for t in rr)),
                  note='Valor vazio: sem pagamento associado ou não avaliável. Diferença zero: pagamento principal fecha o título. Sem baixa automática no ERP.')
-    (out/'bank_reconciliation_summary.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    (out/'bank_reconciliation_summary.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\r\n')
     lines=['# Conciliação bancária — leitura dos resultados','',
            f"Extrato até {summary['statement_end']}. Todos os candidatos com identidade, valor e vencimento são pesquisados, inclusive os retidos para importação.",'',
            '| Beneficiário | Competência | Título (BRL) | Principal atribuído (BRL) | Duplicado (BRL) | Situação |',
@@ -334,7 +334,7 @@ def write_summary(out, titles, entries, visa_matches, unmatched, pipeline_summar
               f"Boletos: nome/canal e janela, com diferença limitada a R$ {rules['invoice_max_difference_brl']} e {Decimal(rules['invoice_max_difference_ratio'])*100}% simultaneamente. Tolerâncias técnicas não aprovam encargos ou baixas; excessos ficam em revisão.",
               'Alta confiança significa correspondência única pelas regras; o extrato não contém CPF ou identificador do ERP.',
               'Janelas e tolerâncias estão em `config/reconciliation.json`, e os hashes constam no resumo JSON.', '']
-    (out/'README.md').write_text('\n'.join(lines),encoding='utf-8')
+    (out/'README.md').write_text('\n'.join(lines),encoding='utf-8',newline='\r\n')
     return summary
 
 
@@ -355,7 +355,7 @@ def main():
     title_rows,pairs,reviews=report_rows(titles,entries)
     pipeline_summary=json.loads((args.pipeline_output/'run_summary.json').read_text(encoding='utf-8'))
     out.mkdir(parents=True,exist_ok=True)
-    (out/'.bank_reconciliation_output').write_text('Resultados reproduzíveis; sem baixa no ERP.\n',encoding='utf-8')
+    (out/'.bank_reconciliation_output').write_text('Resultados reproduzíveis; sem baixa no ERP.\n',encoding='utf-8',newline='\r\n')
     write_csv(out/'bank_reconciliation.csv',title_rows,list(title_rows[0]) if title_rows else ['id_externo','valor_titulo','status'])
     write_csv(out/'bank_match_pairs.csv',pairs,['id_externo','bank_id','bank_date','bank_description','tipo_vinculo','valor_atribuido_titulo','confianca','regra'])
     write_csv(out/'bank_review_candidates.csv',reviews,['id_externo','bank_id','motivo'])
