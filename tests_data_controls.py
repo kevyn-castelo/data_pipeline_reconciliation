@@ -1,10 +1,13 @@
 """Aceite dos controles observados na amostra do cliente (sem alterar entradas)."""
 
+import argparse
 from pathlib import Path
 import duckdb
 
 
-db = Path(__file__).resolve().parent / "output/canonical.duckdb"
+parser = argparse.ArgumentParser()
+parser.add_argument("--pipeline-output", type=Path, default=Path(__file__).resolve().parent / "output")
+db = parser.parse_args().pipeline_output / "canonical.duckdb"
 con = duckdb.connect(str(db), read_only=True)
 issues = dict(con.execute("""
     select issue, count(*) from int_transaction_integrity,

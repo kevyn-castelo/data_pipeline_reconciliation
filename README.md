@@ -4,7 +4,7 @@ This repository implements the [Alchemy case requirements](TASK.md) for Indústr
 
 ## Reproduce locally
 
-Use Git and Python **3.14.6** (the tested version). Dependency versions are pinned in [`requirements.txt`](requirements.txt). The first installation needs package-index access; the pipeline itself needs no API keys or external services. The full pipeline has been run on Windows. The macOS/Linux commands below use the same virtual-environment layout and have not yet been executed on those systems.
+Use Git and Python **3.14.x** with `venv` and `pip` available. The full pipeline was tested with 3.14.6 on Windows and 3.14.4 on Ubuntu 26.04 under WSL. Dependency versions are pinned in [`requirements.txt`](requirements.txt). The first installation needs package-index access; the pipeline itself needs no API keys or external services. Minimal Ubuntu installations may require the distribution's Python 3.14 `venv` component before `python3.14 -m venv` works. macOS uses the same Unix commands but has not been tested here.
 
 ### Windows PowerShell
 
@@ -40,12 +40,12 @@ python3.14 -m venv .venv
 ./.venv/bin/python tests_data_controls.py
 ./.venv/bin/python tests_bank_reconciliation.py
 ./.venv/bin/python tests_synthetic.py
-git diff --exit-code -- output reconciliation
+git diff --exit-code -- ':(glob)output/*.csv' ':(glob)output/*.md' ':(glob)reconciliation/*.csv' ':(glob)reconciliation/*.md'
 ```
 
-The pipeline build should end with **PASS=67, ERROR=0**; the three Python checks should pass. The final `git diff` should print nothing for this fixed input set, date and Python version. A separate Windows reproduction run matched all **52** versioned CSV/JSON/Markdown files in `output/` and all **8** in `reconciliation/` byte for byte. The tracked `output/` contains readable deliverables; its ignored DuckDB database, dbt artifacts and logs are recreated by `run.py`. Close any Excel or DuckDB handle on `output/` before rebuilding on Windows, because publication replaces that directory.
+The pipeline build should end with **PASS=67, ERROR=0**; the three Python checks should pass. On Windows with the recorded Python version, the final `git diff` should print nothing. The Unix check compares CSV and Markdown deliverables, allowing Python patch versions to differ in `run_summary.json` and its derived bank-summary hash. Windows reproduced all **52** versioned CSV/JSON/Markdown files in `output/` and all **8** in `reconciliation/` byte for byte. Ubuntu reproduced **51 of 52** and **7 of 8** byte for byte; the only differences were `python_version` (3.14.4 versus 3.14.6) and its derived bank-summary hash. The tracked `output/` contains readable deliverables; its ignored DuckDB database, dbt artifacts and logs are recreated by `run.py`. Close any Excel or DuckDB handle on `output/` before rebuilding on Windows, because publication replaces that directory.
 
-`--as-of-date` is explicit so overdue decisions and the reports are reproducible. For a new closing period, use the actual evaluation date. The configured first automated competence, **2026-09**, is a case assumption awaiting client confirmation before deployment; it prevents historical July/August reimport. `run.py` locates `dbt.exe` on Windows or `dbt` on macOS/Linux beside the virtual-environment Python. Report text uses fixed line endings to make generated files comparable across operating systems. macOS/Linux remain unverified by an end-to-end run.
+`--as-of-date` is explicit so overdue decisions and the reports are reproducible. For a new closing period, use the actual evaluation date. The configured first automated competence, **2026-09**, is a case assumption awaiting client confirmation before deployment; it prevents historical July/August reimport. `run.py` locates `dbt.exe` on Windows or `dbt` on macOS/Linux beside the virtual-environment Python. Report text uses fixed line endings to make generated files comparable across operating systems. Ubuntu passed an end-to-end run; macOS has not yet been run.
 
 ## Deliverables in this repository
 

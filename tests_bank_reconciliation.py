@@ -1,5 +1,6 @@
 """Oráculo do parecer para o extrato de julho a setembro de 2026."""
 
+import argparse
 from pathlib import Path
 from copy import deepcopy
 from datetime import date
@@ -9,7 +10,9 @@ from bank_reconciliation import bank_entries, candidates, reconcile, report_rows
 
 
 ROOT = Path(__file__).resolve().parent
-titles, visa = candidates(ROOT / "output/canonical.duckdb")
+parser = argparse.ArgumentParser()
+parser.add_argument("--pipeline-output", type=Path, default=ROOT / "output")
+titles, visa = candidates(parser.parse_args().pipeline_output / "canonical.duckdb")
 titles, visa_matches, unmatched = reconcile(
     titles, visa, bank_entries(ROOT / "data/extrato_itau_cc_2026-07_a_2026-09.csv")
 )

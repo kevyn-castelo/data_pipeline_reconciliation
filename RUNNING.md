@@ -2,7 +2,7 @@
 
 ## Preparar uma cópia nova
 
-Ambiente validado ponta a ponta: Windows, Python 3.14.6. As versões de DuckDB, dbt e openpyxl estão fixadas em `requirements.txt`. Na raiz do repositório, em PowerShell:
+Ambientes validados: Windows com Python 3.14.6 e Ubuntu 26.04 sob WSL com Python 3.14.4. As versões de DuckDB, dbt e openpyxl estão fixadas em `requirements.txt`. Na raiz do repositório, em PowerShell:
 
 ```powershell
 python -m venv .venv
@@ -13,7 +13,7 @@ python -m venv .venv
 
 A data explícita reproduz o corte dos entregáveis versionados. Em uma execução operacional, informar a data de avaliação correta. `--first-competence YYYY-MM` controla o início da automação; setembro/2026 é uma premissa configurada para este case e depende de confirmação para implantação. Ela impede reimportar o histórico de julho/agosto. Não representa uma pendência para concluir a análise do case.
 
-Em macOS/Linux, depois de instalar Python 3.14.6, o ambiente virtual usa `./.venv/bin/python` e o pipeline encontra `./.venv/bin/dbt`:
+Em macOS/Linux, depois de instalar Python 3.14.x com `venv` e `pip`, o ambiente virtual usa `./.venv/bin/python` e o pipeline encontra `./.venv/bin/dbt`. Instalações mínimas do Ubuntu podem exigir o componente `venv` da distribuição:
 
 ```bash
 python3.14 -m venv .venv
@@ -22,7 +22,7 @@ python3.14 -m venv .venv
 ./.venv/bin/python bank_reconciliation.py --pipeline-output output --output reconciliation
 ```
 
-Os caminhos do executável dbt e os finais de linha dos relatórios foram tratados para os três sistemas. macOS/Linux ainda não receberam uma execução ponta a ponta neste projeto; o aceite observado é em Windows.
+Os caminhos do executável dbt e os finais de linha dos relatórios foram tratados para os três sistemas. No Ubuntu, pipeline e conciliação executaram, os 67 passos dbt e os testes de dados e banco passaram, e 58 relatórios CSV/Markdown ou JSON sem metadados de versão coincidiram byte a byte com os do Windows. Os dois resumos JSON diferiram apenas pela versão do Python e pelo hash derivado dela. A suíte sintética completa passou no Windows; macOS ainda não foi executado.
 
 ## Onde estão os resultados
 
